@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Sanatan Seva</title>
+  <style>
+    :root {
+      --saffron: #c95b12;
+      --saffron-deep: #8f3307;
+      --gold: #dcae46;
+      --gold-light: #f6db93;
+      --cream: #fff2d2;
+      --cream-dark: #ead19b;
+      --ink: #351d0d;
+      --muted: #7a5432;
+      --card: rgba(255, 247, 225, 0.88);
+      --shadow: 0 22px 55px rgba(91, 38, 4, 0.18);
+      --glass: rgba(255, 255, 255, 0.22);
+      --success: #367a42;
+      --danger: #9f271f;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 15% 10%, rgba(255, 212, 111, 0.52), transparent 26rem),
+        radial-gradient(circle at 85% 5%, rgba(198, 75, 12, 0.22), transparent 22rem),
+        linear-gradient(145deg, #4a1707 0%, #9e3b09 38%, #f0c86e 100%);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(30deg, rgba(255,255,255,0.05) 12%, transparent 12.5%, transparent 87%, rgba(255,255,255,0.05) 87.5%, rgba(255,255,255,0.05)),
+        linear-gradient(150deg, rgba(255,255,255,0.05) 12%, transparent 12.5%, transparent 87%, rgba(255,255,255,0.05) 87.5%, rgba(255,255,255,0.05));
+      background-size: 72px 124px;
+      opacity: 0.28;
+      pointer-events: none;
+    }
+
+    .app-shell {
+      width: min(1180px, 100%);
+      min-height: 100vh;
+      margin: 0 auto;
+      padding: 18px clamp(14px, 2vw, 28px) 112px;
+      position: relative;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 18px;
+      align-items: stretch;
+      margin-bottom: 18px;
+    }
+
+    .hero-card, .ad-banner, .feature-card, .panel, .bottom-nav {
+      border: 1px solid rgba(255, 225, 143, 0.45);
+      background: var(--card);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+    }
+
+    .hero-card {
+      border-radius: 32px;
+      padding: clamp(22px, 4vw, 42px);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .hero-card::after {
+      content: "ॐ";
+      position: absolute;
+      right: 22px;
+      bottom: -44px;
+      font-family: Georgia, serif;
+      font-size: clamp(140px, 22vw, 260px);
+      color: rgba(201, 91, 18, 0.09);
+      line-height: 1;
+    }
+
+    .brand-row { display: flex; align-items: center; gap: 14px; position: relative; z-index: 1; }
+
+    .logo {
+      width: 64px;
+      height: 64px;
+      border-radius: 22px;
+      display: grid;
+      place-items: center;
+      color: #fff7dc;
+      font-size: 36px;
+      background: linear-gradient(145deg, var(--saffron), #7d2204);
+      border: 2px solid var(--gold-light);
+      box-shadow: inset 0 0 18px rgba(255, 233, 170, 0.33), 0 12px 26px rgba(120, 39, 6, 0.25);
+    }
+
+    .eyebrow {
+      margin: 0 0 6px;
+      color: var(--saffron-deep);
+      font-size: 0.85rem;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    h1, h2, h3 { margin: 0; }
+
+    h1 {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(2.35rem, 6vw, 5.2rem);
+      line-height: 0.95;
+      letter-spacing: -0.05em;
+      color: var(--ink);
+      margin: 24px 0 18px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-card p {
+      position: relative;
+      z-index: 1;
+      max-width: 760px;
+      font-size: clamp(1rem, 1.8vw, 1.24rem);
+      line-height: 1.62;
+      color: #5f371b;
+      margin: 0;
+    }
+
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 24px; position: relative; z-index: 1; }
+
+    .btn {
+      min-height: 48px;
+      border: 0;
+      border-radius: 18px;
+      padding: 12px 18px;
+      color: #fff9df;
+      font-weight: 850;
+      font-size: 1rem;
+      background: linear-gradient(145deg, var(--saffron), var(--saffron-deep));
+      box-shadow: 0 10px 22px rgba(120, 39, 6, 0.24);
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .btn.secondary {
+      color: var(--ink);
+      background: linear-gradient(145deg, #ffe9aa, var(--gold));
+    }
+
+    .btn:active { transform: scale(0.97); }
+    .btn:hover { box-shadow: 0 14px 28px rgba(120, 39, 6, 0.3); }
+
+    .ad-banner {
+      border-radius: 28px;
+      padding: 18px;
+      display: grid;
+      align-content: space-between;
+      min-height: 220px;
+      background:
+        linear-gradient(160deg, rgba(255,247,225,0.92), rgba(246,219,147,0.78)),
+        repeating-linear-gradient(45deg, transparent 0 10px, rgba(143,51,7,0.04) 10px 20px);
+    }
+
+    .ad-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      width: fit-content;
+      border-radius: 999px;
+      padding: 7px 12px;
+      background: rgba(143, 51, 7, 0.12);
+      color: var(--saffron-deep);
+      font-size: 0.78rem;
+      font-weight: 900;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .ad-banner strong { font-size: 1.5rem; line-height: 1.1; font-family: Georgia, serif; }
+    .ad-banner span:last-child { color: var(--muted); line-height: 1.45; }
+
+    .dashboard {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .feature-card {
+      grid-column: span 2;
+      min-height: 124px;
+      border-radius: 24px;
+      padding: 18px;
+      text-align: left;
+      cursor: pointer;
+      transition: transform 0.22s ease, background 0.22s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .feature-card.active, .feature-card:hover {
+      transform: translateY(-3px);
+      background: linear-gradient(145deg, #fff8df, #f5d47c);
+    }
+
+    .feature-card .icon { font-size: 2rem; display: block; margin-bottom: 10px; }
+    .feature-card h3 { font-size: 1.05rem; }
+    .feature-card p { margin: 6px 0 0; color: var(--muted); font-size: 0.92rem; line-height: 1.35; }
+
+    .panel {
+      display: none;
+      border-radius: 30px;
+      padding: clamp(18px, 3vw, 30px);
+      min-height: 520px;
+      animation: rise 0.28s ease both;
+    }
+
+    .panel.active { display: block; }
+
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .panel-header { display: flex; justify-content: space-between; gap: 14px; align-items: flex-start; margin-bottom: 22px; }
+    .panel-title h2 { font-family: Georgia, serif; font-size: clamp(1.65rem, 3vw, 2.55rem); }
+    .panel-title p { margin: 7px 0 0; color: var(--muted); line-height: 1.5; }
+
+    .festival-list { display: grid; gap: 14px; }
+    .festival-item {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 16px;
+      align-items: center;
+      padding: 16px;
+      border-radius: 22px;
+      background: rgba(255, 255, 255, 0.42);
+      border: 1px solid rgba(220, 174, 70, 0.38);
+    }
+
+    .date-badge {
+      width: 76px;
+      height: 76px;
+      border-radius: 22px;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      color: #fff8df;
+      background: linear-gradient(145deg, var(--saffron), #782404);
+      font-weight: 900;
+      line-height: 1.08;
+      box-shadow: inset 0 0 20px rgba(255, 231, 166, 0.25);
+    }
+
+    .date-badge small { display: block; font-size: 0.78rem; letter-spacing: 0.08em; }
+    .festival-item h3 { font-size: 1.2rem; margin-bottom: 5px; }
+    .festival-item p { margin: 0; color: var(--muted); line-height: 1.45; }
+    .muhurat { font-weight: 900; color: var(--saffron-deep); white-space: nowrap; }
+
+    .form-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin-bottom: 18px; }
+    label { display: grid; gap: 8px; color: var(--saffron-deep); font-weight: 850; }
+    input, select {
+      width: 100%;
+      min-height: 54px;
+      border: 1px solid rgba(143, 51, 7, 0.22);
+      border-radius: 18px;
+      padding: 12px 14px;
+      background: rgba(255,255,255,0.62);
+      color: var(--ink);
+      font: inherit;
+      outline: none;
+    }
+
+    input:focus, select:focus { border-color: var(--saffron); box-shadow: 0 0 0 4px rgba(201, 91, 18, 0.12); }
+
+    .kundali-output { display: grid; grid-template-columns: 0.8fr 1.2fr; gap: 18px; align-items: start; }
+    .chart {
+      aspect-ratio: 1;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: repeat(3, 1fr);
+      border: 3px solid var(--saffron-deep);
+      border-radius: 24px;
+      overflow: hidden;
+      background: #fff9e8;
+      box-shadow: inset 0 0 36px rgba(220, 174, 70, 0.22);
+    }
+
+    .house {
+      border: 1px solid rgba(143, 51, 7, 0.32);
+      display: grid;
+      place-items: center;
+      text-align: center;
+      padding: 8px;
+      color: var(--muted);
+      font-size: 0.86rem;
+      min-height: 82px;
+    }
+
+    .house strong { display: block; color: var(--saffron-deep); font-size: 0.95rem; }
+    .reading { display: grid; gap: 12px; }
+    .reading-card, .guide-card, .mantra-card, .puja-step {
+      border-radius: 20px;
+      padding: 16px;
+      background: rgba(255,255,255,0.46);
+      border: 1px solid rgba(220, 174, 70, 0.34);
+    }
+
+    .reading-card h3, .guide-card h3, .mantra-card h3, .puja-step h3 { margin-bottom: 8px; color: var(--saffron-deep); }
+    .reading-card p, .guide-card p, .mantra-card p, .puja-step p { margin: 0; color: var(--muted); line-height: 1.5; }
+
+    .vastu-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: center; }
+    .compass {
+      position: relative;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      background: radial-gradient(circle, #fff8df 0 26%, #f6db93 27% 47%, #ca5b12 48% 49%, #fff2d2 50% 100%);
+      border: 8px double var(--saffron-deep);
+      box-shadow: inset 0 0 42px rgba(143,51,7,0.18), var(--shadow);
+    }
+
+    .direction {
+      position: absolute;
+      width: 84px;
+      height: 84px;
+      border: 0;
+      border-radius: 50%;
+      color: var(--ink);
+      background: linear-gradient(145deg, #fff7dc, var(--gold-light));
+      font-weight: 950;
+      box-shadow: 0 10px 20px rgba(91,38,4,0.18);
+      cursor: pointer;
+    }
+
+    .direction.active { background: linear-gradient(145deg, var(--saffron), var(--saffron-deep)); color: #fff8df; }
+    .d-n { left: 50%; top: 5%; transform: translateX(-50%); }
+    .d-ne { right: 11%; top: 13%; }
+    .d-e { right: 5%; top: 50%; transform: translateY(-50%); }
+    .d-se { right: 11%; bottom: 13%; }
+    .d-s { left: 50%; bottom: 5%; transform: translateX(-50%); }
+    .d-sw { left: 11%; bottom: 13%; }
+    .d-w { left: 5%; top: 50%; transform: translateY(-50%); }
+    .d-nw { left: 11%; top: 13%; }
+    .compass-center { position: absolute; inset: 36%; display: grid; place-items: center; border-radius: 50%; background: var(--saffron-deep); color: var(--gold-light); font-size: 2.2rem; }
+
+    .mantra-grid { display: grid; grid-template-columns: 1fr 0.85fr; gap: 18px; }
+    .mantra-card { margin-bottom: 14px; }
+    .sanskrit { font-family: Georgia, serif; font-size: 1.2rem; color: var(--ink) !important; }
+    .player {
+      display: grid;
+      gap: 16px;
+      align-content: start;
+      border-radius: 26px;
+      padding: 20px;
+      background: linear-gradient(145deg, rgba(143,51,7,0.9), rgba(201,91,18,0.86));
+      color: #fff7dc;
+      box-shadow: var(--shadow);
+    }
+
+    .player p { color: rgba(255, 247, 220, 0.82); margin: 0; line-height: 1.5; }
+    .progress { height: 12px; background: rgba(255,255,255,0.22); border-radius: 999px; overflow: hidden; }
+    .progress-fill { height: 100%; width: 0%; border-radius: 999px; background: linear-gradient(90deg, var(--gold-light), var(--gold)); transition: width 0.2s linear; }
+    .mala {
+      min-height: 164px;
+      border: 2px dashed rgba(255, 239, 187, 0.55);
+      border-radius: 28px;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .mala strong { display: block; font-size: 3.6rem; line-height: 1; }
+    .mala small { color: rgba(255, 247, 220, 0.74); font-weight: 800; }
+
+    .tabs { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 14px; }
+    .tab {
+      min-width: max-content;
+      min-height: 48px;
+      border: 1px solid rgba(143,51,7,0.18);
+      border-radius: 999px;
+      padding: 11px 17px;
+      background: rgba(255,255,255,0.44);
+      color: var(--saffron-deep);
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    .tab.active { background: var(--saffron-deep); color: #fff8df; }
+    .puja-steps { display: grid; gap: 12px; }
+    .puja-step { display: grid; grid-template-columns: auto 1fr; gap: 14px; align-items: start; }
+    .step-number { width: 40px; height: 40px; border-radius: 14px; display: grid; place-items: center; background: var(--gold); color: var(--ink); font-weight: 950; }
+
+    .bottom-nav {
+      position: fixed;
+      left: 50%;
+      bottom: max(14px, env(safe-area-inset-bottom));
+      transform: translateX(-50%);
+      width: min(760px, calc(100% - 24px));
+      border-radius: 28px;
+      padding: 10px;
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 7px;
+      z-index: 20;
+    }
+
+    .nav-btn {
+      border: 0;
+      border-radius: 20px;
+      min-height: 62px;
+      background: transparent;
+      color: var(--muted);
+      font-weight: 850;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      gap: 2px;
+      font-size: 0.76rem;
+    }
+
+    .nav-btn span { font-size: 1.28rem; }
+    .nav-btn.active { background: linear-gradient(145deg, var(--saffron), var(--saffron-deep)); color: #fff8df; }
+
+    @media (max-width: 880px) {
+      .hero, .kundali-output, .vastu-wrap, .mantra-grid { grid-template-columns: 1fr; }
+      .dashboard { grid-template-columns: repeat(2, 1fr); }
+      .feature-card { grid-column: span 1; }
+      .ad-banner { min-height: 154px; }
+      .form-grid { grid-template-columns: 1fr; }
+      .festival-item { grid-template-columns: auto 1fr; }
+      .muhurat { grid-column: 2; white-space: normal; }
+    }
+
+    @media (max-width: 560px) {
+      .app-shell { padding-inline: 12px; padding-bottom: 104px; }
+      .hero-card, .panel { border-radius: 24px; }
+      .dashboard { display: none; }
+      .panel-header { display: block; }
+      .bottom-nav { grid-template-columns: repeat(3, 1fr); border-radius: 22px; }
+      .nav-btn { min-height: 52px; font-size: 0.7rem; }
+      .direction { width: 62px; height: 62px; font-size: 0.78rem; }
+      .festival-item { grid-template-columns: 1fr; text-align: left; }
+      .muhurat { grid-column: auto; }
+    }
+  </style>
+</head>
+<body>
+  <main class="app-shell">
+    <section class="hero">
+      <div class="hero-card">
+        <div class="brand-row">
+          <div class="logo" aria-hidden="true">ॐ</div>
+          <div>
+            <p class="eyebrow">Sanatan Seva</p>
+            <strong>All-in-One Hindu Religious Tools</strong>
+          </div>
+        </div>
+        <h1>Spiritual guidance for every day.</h1>
+        <p>Explore festival timings, create a simulated kundali, learn Vastu directions, chant with a Jaap Mala counter, and follow puja steps in a serene iPad-ready experience.</p>
+        <div class="hero-actions">
+          <button class="btn" data-jump="festivals">View Festivals</button>
+          <button class="btn secondary" data-jump="mantras">Start Jaap</button>
+        </div>
+      </div>
+      <aside class="ad-banner" aria-label="Sponsored ad simulator">
+        <span class="ad-label">Sponsored Ad</span>
+        <strong>Premium devotional products and puja essentials can appear here.</strong>
+        <span>Responsive banner simulator for Android monetization layout testing.</span>
+      </aside>
+    </section>
+
+    <section class="dashboard" aria-label="Feature dashboard">
+      <button class="feature-card active" data-section="festivals"><span class="icon">🪔</span><h3>Festival Calendar</h3><p>Dates, muhurat, and significance.</p></button>
+      <button class="feature-card" data-section="kundali"><span class="icon">🌙</span><h3>Kundali Calculator</h3><p>Birth chart and planetary reading.</p></button>
+      <button class="feature-card" data-section="vastu"><span class="icon">🧭</span><h3>Vastu Shastra</h3><p>Direction-wise prosperity guide.</p></button>
+      <button class="feature-card" data-section="mantras"><span class="icon">📿</span><h3>Mantras & Audio</h3><p>Chants, player, and mala counter.</p></button>
+      <button class="feature-card" data-section="puja"><span class="icon">🙏</span><h3>Puja Guide</h3><p>Daily and special ritual steps.</p></button>
+      <button class="feature-card" data-section="ads"><span class="icon">📢</span><h3>Ad Layout</h3><p>Monetization placement preview.</p></button>
+    </section>
+
+    <section id="festivals" class="panel active">
+      <div class="panel-header"><div class="panel-title"><h2>Festival Calendar</h2><p>Major Hindu festivals with practical timings and spiritual context for planning devotion.</p></div></div>
+      <div class="festival-list" id="festivalList"></div>
+    </section>
+
+    <section id="kundali" class="panel">
+      <div class="panel-header"><div class="panel-title"><h2>Kundali Calculator</h2><p>Enter birth details to generate a simulated Vedic chart and a basic personalized reading.</p></div></div>
+      <form id="kundaliForm" class="form-grid">
+        <label>Name<input id="personName" type="text" value="Aarav Sharma" required /></label>
+        <label>Date of Birth<input id="birthDate" type="date" value="1996-08-15" required /></label>
+        <label>Time of Birth<input id="birthTime" type="time" value="06:24" required /></label>
+        <label>Birth Place<input id="birthPlace" type="text" value="Varanasi, India" required /></label>
+      </form>
+      <button class="btn" id="generateKundali">Generate Kundali</button>
+      <div class="kundali-output" style="margin-top:18px;">
+        <div class="chart" id="kundaliChart" aria-label="Simulated kundali chart"></div>
+        <div class="reading" id="kundaliReading"></div>
+      </div>
+    </section>
+
+    <section id="vastu" class="panel">
+      <div class="panel-header"><div class="panel-title"><h2>Vastu Shastra Guide</h2><p>Tap any direction to view harmonious placements for peace, prosperity, and balanced energy.</p></div></div>
+      <div class="vastu-wrap">
+        <div class="compass" id="compass" aria-label="Interactive Vastu compass">
+          <button class="direction d-n active" data-dir="North">N</button><button class="direction d-ne" data-dir="North-East">NE</button><button class="direction d-e" data-dir="East">E</button><button class="direction d-se" data-dir="South-East">SE</button><button class="direction d-s" data-dir="South">S</button><button class="direction d-sw" data-dir="South-West">SW</button><button class="direction d-w" data-dir="West">W</button><button class="direction d-nw" data-dir="North-West">NW</button>
+          <div class="compass-center">ॐ</div>
+        </div>
+        <div class="guide-card" id="vastuInfo"></div>
+      </div>
+    </section>
+
+    <section id="mantras" class="panel">
+      <div class="panel-header"><div class="panel-title"><h2>Mantras & Audio Player</h2><p>Read sacred mantras, simulate calming audio playback, and count your Jaap with touch.</p></div></div>
+      <div class="mantra-grid">
+        <div id="mantraList"></div>
+        <aside class="player">
+          <h3 id="trackTitle">Gayatri Mantra</h3>
+          <p id="trackStatus">Ready for meditative audio simulation.</p>
+          <div class="progress"><div class="progress-fill" id="progressFill"></div></div>
+          <button class="btn secondary" id="playPause">▶ Play</button>
+          <div class="mala" id="malaCounter" role="button" tabindex="0" aria-label="Tap to count jaap">
+            <div><strong id="malaCount">0</strong><small>Tap bead to count Jaap • Goal 108</small></div>
+          </div>
+          <button class="btn secondary" id="resetMala">Reset Mala</button>
+        </aside>
+      </div>
+    </section>
+
+    <section id="puja" class="panel">
+      <div class="panel-header"><div class="panel-title"><h2>Puja Guide</h2><p>Follow clear, respectful steps for daily worship or special home rituals.</p></div></div>
+      <div class="tabs" id="pujaTabs"></div>
+      <div class="puja-steps" id="pujaSteps"></div>
+    </section>
+
+    <section id="ads" class="panel">
+      <div class="panel-header"><div class="panel-title"><h2>Ad Space Simulator</h2><p>Preview subtle monetization slots that preserve the devotional experience.</p></div></div>
+      <div class="ad-banner" style="min-height:190px;margin-bottom:16px;"><span class="ad-label">Sponsored Ad</span><strong>Top devotional banner: 728 × 90 adaptive placement.</strong><span>Ideal for tablets and foldables; uses warm colors so it feels native to the app.</span></div>
+      <div class="ad-banner" style="min-height:250px;"><span class="ad-label">Sponsored Ad</span><strong>Native card placement between content sections.</strong><span>Designed for Android monetization testing without interrupting puja, mantra, or calendar workflows.</span></div>
+    </section>
+  </main>
+
+  <nav class="bottom-nav" aria-label="Bottom navigation">
+    <button class="nav-btn active" data-section="festivals"><span>🪔</span>Festivals</button>
+    <button class="nav-btn" data-section="kundali"><span>🌙</span>Kundali</button>
+    <button class="nav-btn" data-section="vastu"><span>🧭</span>Vastu</button>
+    <button class="nav-btn" data-section="mantras"><span>📿</span>Mantras</button>
+    <button class="nav-btn" data-section="puja"><span>🙏</span>Puja</button>
+    <button class="nav-btn" data-section="ads"><span>📢</span>Ads</button>
+  </nav>
+
+  <script>
+    const festivals = [
+      { month: 'AUG', day: '28', name: 'Raksha Bandhan 2026', muhurat: 'Aparahna 1:42 PM–4:18 PM', text: 'Celebrates the sacred bond of protection, affection, and family responsibility through rakhi, tilak, and blessings.' },
+      { month: 'SEP', day: '04', name: 'Krishna Janmashtami 2026', muhurat: 'Nishita Puja 12:02 AM–12:48 AM', text: 'Marks the birth of Shri Krishna; devotees observe fast, sing bhajans, and perform midnight aarti.' },
+      { month: 'SEP', day: '14', name: 'Ganesh Chaturthi 2026', muhurat: 'Madhyahna 11:04 AM–1:31 PM', text: 'Welcomes Lord Ganesha with sthapana, modak offerings, aarti, and prayers for wisdom and obstacle removal.' },
+      { month: 'OCT', day: '11', name: 'Sharad Navratri Begins 2026', muhurat: 'Ghatasthapana 6:21 AM–10:12 AM', text: 'Nine nights of Devi worship, vrat, garba, and sadhana celebrating the victory of divine shakti.' },
+      { month: 'OCT', day: '20', name: 'Dussehra / Vijayadashami 2026', muhurat: 'Aparahna Puja 1:19 PM–3:36 PM', text: 'Honors the triumph of dharma over adharma, Lord Rama over Ravana, and courage over negativity.' },
+      { month: 'NOV', day: '08', name: 'Diwali Lakshmi Puja 2026', muhurat: 'Pradosh Kaal 5:43 PM–8:16 PM', text: 'Festival of lights honoring Lakshmi Maa, inner purity, prosperity, family unity, and new beginnings.' }
+    ];
+
+    const vastu = {
+      'North': ['Wealth & opportunities', 'Keep lockers, safe, indoor plants, or a clean water bowl here. Avoid heavy clutter to support flow of prosperity.'],
+      'North-East': ['Prayer & wisdom', 'Best for mandir, meditation mat, copper kalash, or sacred books. Keep this corner pure, bright, and light.'],
+      'East': ['Health & vitality', 'Open windows, sunrise seating, study desk, or yoga space enhance clarity and daily energy.'],
+      'South-East': ['Fire & kitchen', 'Ideal for kitchen, diya stand, or controlled electrical appliances. Balance with warm but not harsh lighting.'],
+      'South': ['Strength & recognition', 'Use for awards, red accents, and storage with order. Avoid water features in this zone.'],
+      'South-West': ['Stability & relationships', 'Good for master bedroom, family photos, heavier furniture, and grounding earth tones.'],
+      'West': ['Fulfillment & gains', 'Suitable for dining, children’s study support, grains, and calm metallic accents.'],
+      'North-West': ['Movement & support', 'Good for guest room, ventilation, travel items, and social connection. Keep it airy and organized.']
+    };
+
+    const mantras = [
+      { title: 'Gayatri Mantra', sanskrit: 'ॐ भूर्भुवः स्वः तत्सवितुर्वरेण्यं भर्गो देवस्य धीमहि धियो यो नः प्रचोदयात्॥', english: 'Om Bhur Bhuvah Swah, Tat Savitur Varenyam, Bhargo Devasya Dheemahi, Dhiyo Yo Nah Prachodayat.' },
+      { title: 'Maha Mrityunjaya Mantra', sanskrit: 'ॐ त्र्यम्बकं यजामहे सुगन्धिं पुष्टिवर्धनम्। उर्वारुकमिव बन्धनान्मृत्योर्मुक्षीय मामृतात्॥', english: 'Om Tryambakam Yajamahe Sugandhim Pushtivardhanam, Urvarukamiva Bandhanan Mrityor Mukshiya Maamritat.' },
+      { title: 'Ganesh Mantra', sanskrit: 'ॐ गं गणपतये नमः॥', english: 'Om Gam Ganapataye Namah — a prayer to remove obstacles and begin auspicious work.' }
+    ];
+
+    const pujas = {
+      'Daily Puja': ['Clean the puja area and place fresh water, flowers, diya, incense, and a small offering.', 'Sit calmly, ring the bell gently, and invoke your Ishta Devata with folded hands.', 'Light the diya and incense, then chant a short mantra or stotra with full attention.', 'Offer flowers, akshat, fruit, or prasad while expressing gratitude and sankalp.', 'Perform aarti clockwise, pray for all beings, and distribute prasad respectfully.'],
+      'Lakshmi Puja': ['Clean the home entrance and puja room, decorate with rangoli, flowers, and lamps.', 'Place Lakshmi-Ganesha images on a clean cloth with coins, rice, and kalash.', 'Invoke Ganesha first, then chant Lakshmi mantras and offer lotus or fragrant flowers.', 'Offer sweets, kheer, or fruits and pray for dharmic prosperity and generosity.', 'Complete with aarti, light diyas around the home, and share prasad with family.'],
+      'Shiva Abhishekam': ['Prepare a Shivling with water, milk, bilva leaves, flowers, sandalwood, and clean vessels.', 'Begin with Om Namah Shivaya and pour water slowly with devotion.', 'Offer milk or panchamrit, then rinse with clean water to honor purity.', 'Place bilva leaves, white flowers, and sandalwood while chanting Shiva mantras.', 'Conclude with aarti, silent meditation, and a prayer for inner transformation.']
+    };
+
+    const sections = ['festivals', 'kundali', 'vastu', 'mantras', 'puja', 'ads'];
+    const festivalList = document.getElementById('festivalList');
+    festivalList.innerHTML = festivals.map(f => `<article class="festival-item"><div class="date-badge"><span><small>${f.month}</small>${f.day}</span></div><div><h3>${f.name}</h3><p>${f.text}</p></div><div class="muhurat">${f.muhurat}</div></article>`).join('');
+
+    function setSection(id) {
+      sections.forEach(section => {
+        document.getElementById(section).classList.toggle('active', section === id);
+      });
+      document.querySelectorAll('[data-section]').forEach(button => button.classList.toggle('active', button.dataset.section === id));
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    document.querySelectorAll('[data-section]').forEach(button => button.addEventListener('click', () => setSection(button.dataset.section)));
+    document.querySelectorAll('[data-jump]').forEach(button => button.addEventListener('click', () => setSection(button.dataset.jump)));
+
+    function generateKundali() {
+      const name = document.getElementById('personName').value.trim() || 'Devotee';
+      const date = document.getElementById('birthDate').value || '1990-01-01';
+      const time = document.getElementById('birthTime').value || '06:00';
+      const place = document.getElementById('birthPlace').value.trim() || 'Birth Place';
+      const seed = [...name + date + time + place].reduce((sum, char) => sum + char.charCodeAt(0), 0);
+      const planets = ['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn', 'Rahu', 'Ketu'];
+      const signs = ['Aries', 'Taurus', 'Gemini', 'Cancer', 'Leo', 'Virgo', 'Libra', 'Scorpio', 'Sagittarius', 'Capricorn', 'Aquarius', 'Pisces'];
+      const houses = Array.from({ length: 9 }, (_, index) => {
+        const planet = planets[(seed + index * 2) % planets.length];
+        const sign = signs[(seed + index * 3) % signs.length];
+        return `<div class="house"><span><strong>House ${index + 1}</strong>${planet}<br>${sign}</span></div>`;
+      }).join('');
+      document.getElementById('kundaliChart').innerHTML = houses;
+      const moonSign = signs[(seed + 4) % signs.length];
+      const ascendant = signs[(seed + 8) % signs.length];
+      const strength = ['discipline', 'creativity', 'devotion', 'leadership', 'wisdom', 'compassion'][seed % 6];
+      document.getElementById('kundaliReading').innerHTML = `
+        <div class="reading-card"><h3>${name}'s Simulated Birth Profile</h3><p>Born on ${date} at ${time} in ${place}. Ascendant appears as <strong>${ascendant}</strong>, suggesting a life path shaped by ${strength} and steady self-improvement.</p></div>
+        <div class="reading-card"><h3>Moon Sign Insight</h3><p>Your simulated Chandra Rashi is <strong>${moonSign}</strong>. This points to emotional growth through prayer, family harmony, and mindful speech.</p></div>
+        <div class="reading-card"><h3>Planetary Guidance</h3><p>Jupiter and Venus combinations indicate support for learning, seva, and relationships. Saturday charity and daily Gayatri chanting are favorable practices.</p></div>`;
+    }
+
+    document.getElementById('generateKundali').addEventListener('click', generateKundali);
+    generateKundali();
+
+    function setVastu(dir) {
+      document.querySelectorAll('.direction').forEach(btn => btn.classList.toggle('active', btn.dataset.dir === dir));
+      const [title, text] = vastu[dir];
+      document.getElementById('vastuInfo').innerHTML = `<h3>${dir}: ${title}</h3><p>${text}</p><p style="margin-top:12px;"><strong>Tip:</strong> Keep this direction clean, intentional, and well-lit to support sattvic energy.</p>`;
+    }
+    document.querySelectorAll('.direction').forEach(btn => btn.addEventListener('click', () => setVastu(btn.dataset.dir)));
+    setVastu('North');
+
+    const mantraList = document.getElementById('mantraList');
+    mantraList.innerHTML = mantras.map((m, index) => `<article class="mantra-card"><h3>${m.title}</h3><p class="sanskrit">${m.sanskrit}</p><p>${m.english}</p><button class="btn secondary" style="margin-top:12px;" data-track="${index}">Select Chant</button></article>`).join('');
+
+    let activeTrack = 0;
+    let playing = false;
+    let progress = 0;
+    let timer;
+    const playPause = document.getElementById('playPause');
+    const progressFill = document.getElementById('progressFill');
+    const trackTitle = document.getElementById('trackTitle');
+    const trackStatus = document.getElementById('trackStatus');
+
+    function updateTrack(index) {
+      activeTrack = index;
+      progress = 0;
+      progressFill.style.width = '0%';
+      trackTitle.textContent = mantras[index].title;
+      trackStatus.textContent = playing ? 'Playing sacred audio simulation with tanpura ambience.' : 'Ready for meditative audio simulation.';
+    }
+
+    document.querySelectorAll('[data-track]').forEach(button => button.addEventListener('click', () => updateTrack(Number(button.dataset.track))));
+
+    playPause.addEventListener('click', () => {
+      playing = !playing;
+      playPause.textContent = playing ? '⏸ Pause' : '▶ Play';
+      trackStatus.textContent = playing ? 'Playing sacred audio simulation with tanpura ambience.' : 'Paused. Resume when ready.';
+      clearInterval(timer);
+      if (playing) {
+        timer = setInterval(() => {
+          progress = (progress + 1.6) % 101;
+          progressFill.style.width = `${progress}%`;
+        }, 280);
+      }
+    });
+
+    let malaCount = 0;
+    const malaCounter = document.getElementById('malaCounter');
+    function incrementMala() {
+      malaCount = (malaCount + 1) % 109;
+      document.getElementById('malaCount').textContent = malaCount;
+      if (malaCount === 108) trackStatus.textContent = 'Mala complete: 108 Jaap counted. Take a moment for gratitude.';
+    }
+    malaCounter.addEventListener('click', incrementMala);
+    malaCounter.addEventListener('keydown', event => { if (event.key === 'Enter' || event.key === ' ') incrementMala(); });
+    document.getElementById('resetMala').addEventListener('click', () => { malaCount = 0; document.getElementById('malaCount').textContent = '0'; trackStatus.textContent = 'Mala reset. Begin again with a calm mind.'; });
+
+    const pujaTabs = document.getElementById('pujaTabs');
+    pujaTabs.innerHTML = Object.keys(pujas).map((name, index) => `<button class="tab ${index === 0 ? 'active' : ''}" data-puja="${name}">${name}</button>`).join('');
+    function setPuja(name) {
+      document.querySelectorAll('.tab').forEach(tab => tab.classList.toggle('active', tab.dataset.puja === name));
+      document.getElementById('pujaSteps').innerHTML = pujas[name].map((step, index) => `<article class="puja-step"><div class="step-number">${index + 1}</div><div><h3>${name} Step ${index + 1}</h3><p>${step}</p></div></article>`).join('');
+    }
+    document.querySelectorAll('.tab').forEach(tab => tab.addEventListener('click', () => setPuja(tab.dataset.puja)));
+    setPuja('Daily Puja');
+  </script>
+</body>
+</html>
