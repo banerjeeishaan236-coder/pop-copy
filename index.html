@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Sanatan Seva</title>
+  <style>
+    :root {
+      --saffron: #c85a13;
+      --saffron-deep: #832a05;
+      --maroon: #4b1508;
+      --gold: #d7aa3b;
+      --gold-soft: #f7dda0;
+      --cream: #fff4d8;
+      --cream-2: #f2dcae;
+      --ink: #31190a;
+      --muted: #765334;
+      --card: rgba(255, 248, 225, 0.92);
+      --line: rgba(151, 79, 20, 0.18);
+      --shadow: 0 24px 60px rgba(66, 22, 3, 0.22);
+      --radius: 28px;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 10% 5%, rgba(255, 225, 139, 0.58), transparent 26rem),
+        radial-gradient(circle at 90% 12%, rgba(206, 84, 19, 0.32), transparent 24rem),
+        linear-gradient(140deg, #3f1105 0%, #8f3107 39%, #e8bc57 100%);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      opacity: 0.28;
+      pointer-events: none;
+      background-image:
+        radial-gradient(circle at 16px 16px, rgba(255,255,255,0.12) 2px, transparent 2px),
+        linear-gradient(30deg, rgba(255,255,255,0.045) 12%, transparent 12.5%, transparent 87%, rgba(255,255,255,0.045) 87.5%);
+      background-size: 48px 48px, 88px 152px;
+    }
+
+    button, input, select { font: inherit; }
+    button { cursor: pointer; }
+
+    .app-shell {
+      position: relative;
+      width: min(1220px, 100%);
+      min-height: 100vh;
+      margin: 0 auto;
+      padding: 18px clamp(14px, 2.4vw, 30px) 116px;
+    }
+
+    .hero, .panel, .feature-card, .ad-banner, .bottom-nav, .mini-card, .chat-window {
+      border: 1px solid rgba(255, 228, 157, 0.48);
+      background: var(--card);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      position: relative;
+    }
+
+    .hero::before, .panel::before, .feature-card::before, .ad-banner::before, .chat-window::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      border: 1px solid rgba(131, 42, 5, 0.16);
+      clip-path: polygon(0 0, 88px 0, 88px 2px, 2px 2px, 2px 88px, 0 88px, 0 0, 100% 0, 100% 100%, calc(100% - 88px) 100%, calc(100% - 88px) calc(100% - 2px), calc(100% - 2px) calc(100% - 2px), calc(100% - 2px) calc(100% - 88px), 100% calc(100% - 88px), 100% 0);
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.18fr 0.82fr;
+      gap: 18px;
+      border-radius: 34px 10px 34px 10px;
+      padding: clamp(18px, 3vw, 36px);
+      margin-bottom: 18px;
+      overflow: hidden;
+      clip-path: polygon(0 0, calc(100% - 34px) 0, 100% 34px, 100% 100%, 34px 100%, 0 calc(100% - 34px));
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      width: 440px;
+      height: 440px;
+      right: -140px;
+      top: -120px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,223,139,0.55), rgba(200,90,19,0.1) 52%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .brand-row { display: flex; align-items: center; gap: 14px; position: relative; z-index: 1; }
+    .brand-mark {
+      width: 72px;
+      height: 72px;
+      border-radius: 24px 8px 24px 8px;
+      clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+      display: grid;
+      place-items: center;
+      background: linear-gradient(145deg, #fff0b8, var(--gold));
+      border: 2px solid #fff7d8;
+      box-shadow: inset 0 0 24px rgba(131, 42, 5, 0.18), 0 14px 26px rgba(83, 32, 7, 0.18);
+    }
+    .brand-mark svg { width: 52px; height: 52px; }
+    .eyebrow { margin: 0 0 4px; color: var(--saffron-deep); font-size: 0.8rem; font-weight: 900; letter-spacing: 0.16em; text-transform: uppercase; }
+    h1, h2, h3, p { margin-top: 0; }
+    h1 {
+      margin: 28px 0 16px;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(2.55rem, 6vw, 5.55rem);
+      line-height: 0.94;
+      letter-spacing: -0.055em;
+      position: relative;
+      z-index: 1;
+    }
+    .hero-copy { position: relative; z-index: 1; }
+    .hero-copy > p { max-width: 760px; color: #5c3418; font-size: clamp(1.02rem, 1.8vw, 1.22rem); line-height: 1.62; }
+    .source-note { margin: 14px 0 0; color: var(--muted); font-size: 0.92rem; line-height: 1.45; }
+
+    .hero-side { position: relative; z-index: 1; display: grid; gap: 14px; }
+    .ad-banner {
+      border-radius: 26px 8px 26px 8px;
+      clip-path: polygon(0 0, calc(100% - 22px) 0, 100% 22px, 100% 100%, 22px 100%, 0 calc(100% - 22px));
+      padding: 18px;
+      min-height: 160px;
+      display: grid;
+      align-content: space-between;
+      background:
+        linear-gradient(160deg, rgba(255,248,225,0.95), rgba(248,221,148,0.82)),
+        repeating-linear-gradient(45deg, transparent 0 12px, rgba(131,42,5,0.045) 12px 24px);
+    }
+    .ad-label, .pill {
+      display: inline-flex;
+      align-items: center;
+      width: fit-content;
+      gap: 8px;
+      border-radius: 999px;
+      padding: 7px 12px;
+      background: rgba(131, 42, 5, 0.12);
+      color: var(--saffron-deep);
+      font-size: 0.76rem;
+      font-weight: 950;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .ad-banner strong { display: block; margin: 14px 0 8px; font-family: Georgia, serif; font-size: 1.35rem; line-height: 1.16; }
+    .ad-banner span:last-child { color: var(--muted); line-height: 1.42; }
+
+    .quick-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+    .mini-card { border-radius: 20px 6px 20px 6px; padding: 14px; clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 14px 100%, 0 calc(100% - 14px)); }
+    .mini-card strong { display: block; font-size: 1.35rem; color: var(--saffron-deep); }
+    .mini-card span { color: var(--muted); font-size: 0.86rem; }
+
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 22px; }
+    .btn {
+      min-height: 50px;
+      border: 0;
+      border-radius: 18px;
+      padding: 12px 18px;
+      color: #fff8df;
+      font-weight: 900;
+      background: linear-gradient(145deg, var(--saffron), var(--saffron-deep));
+      box-shadow: 0 12px 24px rgba(110, 36, 5, 0.25);
+      transition: transform 0.18s ease, box-shadow 0.18s ease;
+    }
+    .btn.secondary { color: var(--ink); background: linear-gradient(145deg, #fff2bf, var(--gold)); }
+    .btn.ghost { color: var(--saffron-deep); background: rgba(255,255,255,0.44); border: 1px solid var(--line); box-shadow: none; }
+    .btn:active { transform: scale(0.97); }
+
+    .dashboard { display: grid; grid-template-columns: repeat(7, 1fr); gap: 12px; margin-bottom: 18px; }
+    .feature-card {
+      grid-column: span 1;
+      min-height: 156px;
+      border-radius: 24px 7px 24px 7px;
+      clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 18px, 100% 100%, 18px 100%, 0 calc(100% - 18px));
+      padding: 16px;
+      text-align: left;
+      border-color: rgba(255, 228, 157, 0.48);
+      color: var(--ink);
+      transition: transform 0.2s ease, background 0.2s ease;
+    }
+    .feature-card.active, .feature-card:hover { transform: translateY(-3px); background: linear-gradient(145deg, #fff8e2, #f4d17b); }
+    .thumb {
+      width: 52px;
+      height: 52px;
+      display: grid;
+      place-items: center;
+      border-radius: 18px 5px 18px 5px;
+      clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+      margin-bottom: 12px;
+      background: linear-gradient(145deg, rgba(131,42,5,0.9), rgba(200,90,19,0.9));
+      box-shadow: inset 0 0 18px rgba(255,235,170,0.24);
+    }
+    .thumb svg { width: 34px; height: 34px; }
+    .feature-card h3 { margin: 0 0 6px; font-size: 1rem; }
+    .feature-card p { margin: 0; color: var(--muted); font-size: 0.86rem; line-height: 1.35; }
+
+    .panel { display: none; border-radius: 32px 10px 32px 10px; padding: clamp(18px, 3vw, 30px); min-height: 560px; animation: rise 0.28s ease both; overflow: hidden; }
+    .panel.active { display: block; }
+    @keyframes rise { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+    .panel-header { display: flex; justify-content: space-between; gap: 16px; align-items: flex-start; margin-bottom: 20px; }
+    .panel-title h2 { margin: 0; font-family: Georgia, serif; font-size: clamp(1.75rem, 3vw, 2.65rem); }
+    .panel-title p { margin: 8px 0 0; color: var(--muted); line-height: 1.52; }
+
+    .calendar-tools { display: grid; grid-template-columns: minmax(260px, 1fr) minmax(210px, auto); gap: 12px; margin-bottom: 14px; align-items: end; }
+    .control-field { display: grid; gap: 7px; }
+    .field-label { color: var(--saffron-deep); font-size: 0.82rem; font-weight: 950; letter-spacing: 0.08em; text-transform: uppercase; }
+    .calendar-tools input, .calendar-tools select, .chat-input input, .form-grid input {
+      min-height: 54px;
+      border: 1px solid rgba(131,42,5,0.22);
+      border-radius: 18px 6px 18px 6px;
+      padding: 12px 14px;
+      outline: none;
+      background: rgba(255,255,255,0.62);
+      color: var(--ink);
+    }
+    .calendar-tools input:focus, .calendar-tools select:focus, .chat-input input:focus, .form-grid input:focus { box-shadow: 0 0 0 4px rgba(200,90,19,0.13); border-color: var(--saffron); }
+    .month-strip { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 10px; margin-bottom: 12px; }
+    .month-chip { min-height: 42px; border: 1px solid var(--line); border-radius: 999px 10px 999px 10px; padding: 9px 13px; background: rgba(255,255,255,0.46); color: var(--saffron-deep); font-weight: 900; }
+    .month-chip.active { background: var(--saffron-deep); color: #fff8df; }
+    .festival-list { display: grid; gap: 12px; }
+    .festival-item {
+      display: grid;
+      grid-template-columns: 94px 1fr auto;
+      gap: 16px;
+      align-items: center;
+      padding: 15px;
+      border-radius: 22px 7px 22px 7px;
+      clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 18px, 100% 100%, 18px 100%, 0 calc(100% - 18px));
+      background: rgba(255,255,255,0.48);
+      border: 1px solid rgba(215, 170, 59, 0.35);
+    }
+    .date-badge { width: 94px; height: 82px; border-radius: 22px 6px 22px 6px; clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 14px 100%, 0 calc(100% - 14px)); display: grid; place-items: center; color: #fff8df; text-align: center; background: linear-gradient(145deg, var(--saffron), #741f04); box-shadow: inset 0 0 20px rgba(255,231,166,0.25); }
+    .date-badge small { display: block; font-weight: 950; letter-spacing: 0.1em; }
+    .date-badge strong { display: block; font-size: 1.5rem; line-height: 1; }
+    .festival-item h3 { margin: 0 0 5px; font-size: 1.12rem; }
+    .festival-item p { margin: 0; color: var(--muted); line-height: 1.46; }
+    .festival-meta { display: grid; justify-items: end; gap: 7px; min-width: 190px; color: var(--saffron-deep); font-weight: 900; text-align: right; }
+    .empty-state { padding: 26px; border: 1px dashed rgba(131,42,5,0.25); border-radius: 22px; color: var(--muted); text-align: center; }
+
+    .form-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin-bottom: 16px; }
+    label { display: grid; gap: 8px; color: var(--saffron-deep); font-weight: 900; }
+    .kundali-output { display: grid; grid-template-columns: 0.82fr 1.18fr; gap: 18px; align-items: start; margin-top: 18px; }
+    .chart { aspect-ratio: 1; display: grid; grid-template-columns: repeat(3, 1fr); border: 3px solid var(--saffron-deep); border-radius: 24px 6px 24px 6px; overflow: hidden; background: #fff9e8; box-shadow: inset 0 0 36px rgba(215,170,59,0.24); clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 20px 100%, 0 calc(100% - 20px)); }
+    .house { border: 1px solid rgba(131,42,5,0.32); display: grid; place-items: center; text-align: center; padding: 8px; color: var(--muted); font-size: 0.84rem; min-height: 82px; }
+    .house strong { display: block; color: var(--saffron-deep); font-size: 0.94rem; }
+    .reading, .chat-suggestions { display: grid; gap: 12px; }
+    .reading-card, .guide-card, .mantra-card, .puja-step, .knowledge-card { border-radius: 20px 6px 20px 6px; padding: 16px; background: rgba(255,255,255,0.48); border: 1px solid rgba(215,170,59,0.34); clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 14px 100%, 0 calc(100% - 14px)); }
+    .reading-card h3, .guide-card h3, .mantra-card h3, .puja-step h3, .knowledge-card h3 { margin: 0 0 8px; color: var(--saffron-deep); }
+    .reading-card p, .guide-card p, .mantra-card p, .puja-step p, .knowledge-card p { margin: 0; color: var(--muted); line-height: 1.5; }
+
+    .vastu-wrap, .mantra-grid, .chat-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: start; }
+    .compass { position: relative; aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle, #fff8df 0 26%, #f7dda0 27% 47%, #c85a13 48% 49%, #fff2d2 50% 100%); border: 8px double var(--saffron-deep); box-shadow: inset 0 0 42px rgba(131,42,5,0.18), var(--shadow); }
+    .direction { position: absolute; width: 84px; height: 84px; border: 0; border-radius: 50%; color: var(--ink); background: linear-gradient(145deg, #fff7dc, var(--gold-soft)); font-weight: 950; box-shadow: 0 10px 20px rgba(91,38,4,0.18); }
+    .direction.active { background: linear-gradient(145deg, var(--saffron), var(--saffron-deep)); color: #fff8df; }
+    .d-n { left: 50%; top: 5%; transform: translateX(-50%); } .d-ne { right: 11%; top: 13%; } .d-e { right: 5%; top: 50%; transform: translateY(-50%); } .d-se { right: 11%; bottom: 13%; } .d-s { left: 50%; bottom: 5%; transform: translateX(-50%); } .d-sw { left: 11%; bottom: 13%; } .d-w { left: 5%; top: 50%; transform: translateY(-50%); } .d-nw { left: 11%; top: 13%; }
+    .compass-center { position: absolute; inset: 35%; display: grid; place-items: center; border-radius: 50%; background: var(--saffron-deep); color: var(--gold-soft); }
+    .compass-center svg { width: 60%; height: 60%; }
+
+    .sanskrit { font-family: Georgia, serif; font-size: 1.18rem; color: var(--ink) !important; }
+    .player { display: grid; gap: 16px; align-content: start; border-radius: 26px 8px 26px 8px; padding: 20px; background: linear-gradient(145deg, rgba(131,42,5,0.92), rgba(200,90,19,0.88)); color: #fff7dc; box-shadow: var(--shadow); clip-path: polygon(0 0, calc(100% - 22px) 0, 100% 22px, 100% 100%, 22px 100%, 0 calc(100% - 22px)); }
+    .player p { color: rgba(255,247,220,0.84); line-height: 1.5; }
+    .progress { height: 12px; background: rgba(255,255,255,0.22); border-radius: 999px; overflow: hidden; }
+    .progress-fill { height: 100%; width: 0%; border-radius: 999px; background: linear-gradient(90deg, var(--gold-soft), var(--gold)); transition: width 0.2s linear; }
+    .mala { min-height: 164px; border: 2px dashed rgba(255,239,187,0.55); border-radius: 28px; display: grid; place-items: center; text-align: center; user-select: none; }
+    .mala strong { display: block; font-size: 3.5rem; line-height: 1; }
+    .mala small { color: rgba(255,247,220,0.75); font-weight: 850; }
+
+    .tabs { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 14px; }
+    .tab { min-width: max-content; min-height: 48px; border: 1px solid rgba(131,42,5,0.18); border-radius: 999px; padding: 11px 17px; background: rgba(255,255,255,0.44); color: var(--saffron-deep); font-weight: 900; }
+    .tab.active { background: var(--saffron-deep); color: #fff8df; }
+    .puja-steps { display: grid; gap: 12px; }
+    .puja-step { display: grid; grid-template-columns: auto 1fr; gap: 14px; align-items: start; }
+    .step-number { width: 42px; height: 42px; border-radius: 14px; display: grid; place-items: center; background: var(--gold); color: var(--ink); font-weight: 950; }
+
+    .chat-window { border-radius: 26px 8px 26px 8px; min-height: 520px; display: grid; grid-template-rows: auto 1fr auto; overflow: hidden; clip-path: polygon(0 0, calc(100% - 22px) 0, 100% 22px, 100% 100%, 22px 100%, 0 calc(100% - 22px)); }
+    .chat-head { padding: 16px; background: linear-gradient(145deg, rgba(131,42,5,0.92), rgba(200,90,19,0.85)); color: #fff8df; }
+    .chat-head h3 { margin: 0 0 6px; }
+    .chat-head p { margin: 0; color: rgba(255,248,223,0.8); line-height: 1.42; }
+    .chat-log { padding: 16px; display: grid; align-content: start; gap: 12px; max-height: 480px; overflow-y: auto; }
+    .bubble { max-width: 88%; padding: 12px 14px; border-radius: 18px; line-height: 1.48; }
+    .bubble.bot { background: #fff7df; border: 1px solid rgba(215,170,59,0.34); color: var(--ink); border-top-left-radius: 6px; }
+    .bubble.user { justify-self: end; background: var(--saffron-deep); color: #fff8df; border-top-right-radius: 6px; }
+    .chat-input { display: grid; grid-template-columns: 1fr auto; gap: 8px; padding: 14px; border-top: 1px solid var(--line); background: rgba(255,255,255,0.36); }
+    .suggestion { width: 100%; min-height: 48px; text-align: left; border: 1px solid var(--line); background: rgba(255,255,255,0.5); border-radius: 16px; padding: 11px 13px; color: var(--saffron-deep); font-weight: 850; }
+
+    .bottom-nav { position: fixed; left: 50%; bottom: max(14px, env(safe-area-inset-bottom)); transform: translateX(-50%); width: min(860px, calc(100% - 24px)); border-radius: 28px 8px 28px 8px; padding: 10px; display: grid; grid-template-columns: repeat(7, 1fr); gap: 7px; z-index: 30; clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 20px 100%, 0 calc(100% - 20px)); }
+    .nav-btn { border: 0; border-radius: 19px 6px 19px 6px; min-height: 62px; background: transparent; color: var(--muted); font-size: 0.72rem; font-weight: 900; display: grid; place-items: center; gap: 3px; }
+    .nav-btn svg { width: 24px; height: 24px; }
+    .nav-btn.active { background: linear-gradient(145deg, var(--saffron), var(--saffron-deep)); color: #fff8df; }
+
+    @media (max-width: 980px) {
+      .hero, .kundali-output, .vastu-wrap, .mantra-grid, .chat-layout { grid-template-columns: 1fr; }
+      .dashboard { grid-template-columns: repeat(3, 1fr); }
+      .feature-card { min-height: 138px; }
+      .festival-item { grid-template-columns: 94px 1fr; }
+      .festival-meta { grid-column: 2; justify-items: start; text-align: left; }
+    }
+
+    @media (max-width: 620px) {
+      .app-shell { padding-inline: 12px; padding-bottom: 126px; }
+      .hero, .panel { border-radius: 24px 8px 24px 8px; }
+      .dashboard { display: none; }
+      .quick-stats, .form-grid, .calendar-tools { grid-template-columns: 1fr; }
+      .panel-header { display: block; }
+      .festival-item { grid-template-columns: 1fr; }
+      .festival-meta { grid-column: auto; }
+      .bottom-nav { grid-template-columns: repeat(4, 1fr); border-radius: 22px; }
+      .nav-btn { min-height: 52px; font-size: 0.66rem; }
+      .direction { width: 62px; height: 62px; font-size: 0.78rem; }
+    }
+  </style>
+</head>
+<body>
+  <main class="app-shell">
+    <section class="hero">
+      <div class="hero-copy">
+        <div class="brand-row">
+          <div class="brand-mark" id="brandLogo" aria-label="Sanatan Seva lotus diya logo"></div>
+          <div><p class="eyebrow">Sanatan Seva</p><strong>Complete Hindu Calendar, Tools & Local Knowledge Assistant</strong></div>
+        </div>
+        <h1>Accurate devotional planning, beautifully organized.</h1>
+        <p>Use a full 2026 India festival and vrat calendar, simulated kundali, Vastu compass, mantra practice, puja guides, ad previews, and a free offline chat assistant trained only on the app’s knowledge base.</p>
+        <p class="source-note"><strong>Calendar note:</strong> Dates are organized for India in 2026 from public panchang listings; exact tithi boundaries, parana, and city muhurat can vary by location and should be confirmed with a local panchang or priest for rituals.</p>
+        <div class="hero-actions"><button class="btn" data-jump="festivals">Open Calendar</button><button class="btn secondary" data-jump="chat">Ask Assistant</button></div>
+      </div>
+      <div class="hero-side">
+        <aside class="ad-banner" aria-label="Sponsored ad simulator"><span class="ad-label">Sponsored Ad</span><strong>Puja samagri, devotional books, and pilgrimage offers can appear here.</strong><span>Subtle Android monetization layout preview that does not interrupt spiritual tools.</span></aside>
+        <div class="quick-stats"><div class="mini-card"><strong id="festivalCount">0</strong><span>2026 observances</span></div><div class="mini-card"><strong>8</strong><span>Vastu directions</span></div><div class="mini-card"><strong>Free</strong><span>offline chat</span></div></div>
+      </div>
+    </section>
+
+    <section class="dashboard" aria-label="Feature dashboard">
+      <button class="feature-card active" data-section="festivals"><span class="thumb" data-icon="calendar"></span><h3>Festival Calendar</h3><p>Major, monthly, vrat, and regional observances.</p></button>
+      <button class="feature-card" data-section="kundali"><span class="thumb" data-icon="kundali"></span><h3>Kundali Calculator</h3><p>Visual simulated chart and planetary reading.</p></button>
+      <button class="feature-card" data-section="vastu"><span class="thumb" data-icon="compass"></span><h3>Vastu Shastra</h3><p>Direction-wise placement guide.</p></button>
+      <button class="feature-card" data-section="mantras"><span class="thumb" data-icon="mala"></span><h3>Mantras & Audio</h3><p>Mantras, player simulator, and mala counter.</p></button>
+      <button class="feature-card" data-section="puja"><span class="thumb" data-icon="diya"></span><h3>Puja Guide</h3><p>Daily and special ritual steps.</p></button>
+      <button class="feature-card" data-section="ads"><span class="thumb" data-icon="ad"></span><h3>Ad Layout</h3><p>Sponsored banner/card preview.</p></button>
+      <button class="feature-card" data-section="chat"><span class="thumb" data-icon="chat"></span><h3>Free Chat</h3><p>Offline answers from app data.</p></button>
+    </section>
+
+    <section id="festivals" class="panel active">
+      <div class="panel-header"><div class="panel-title"><h2>Complete 2026 Festival Calendar</h2><p>Search or filter by month to find major Hindu festivals, small vrats, Ekadashi, Sankranti, Purnima, Amavasya, and regional observances.</p></div><span class="pill" id="visibleCount">All dates</span></div>
+      <div class="calendar-tools"><label class="control-field"><span class="field-label">Search calendar</span><input id="festivalSearch" type="search" aria-label="Search festival, vrat, month, date, or significance" /></label><label class="control-field"><span class="field-label">Category</span><select id="festivalType"><option value="all">All categories</option><option value="Major">Major festivals</option><option value="Vrat">Vrat / fasting</option><option value="Monthly">Monthly observances</option><option value="Regional">Regional / seasonal</option></select></label></div>
+      <div class="month-strip" id="monthStrip"></div>
+      <div class="festival-list" id="festivalList"></div>
+    </section>
+
+    <section id="kundali" class="panel">
+      <div class="panel-header"><div class="panel-title"><h2>Kundali Calculator</h2><p>Enter birth details to generate a deterministic simulated Vedic-style chart and a personalized basic reading.</p></div></div>
+      <form id="kundaliForm" class="form-grid"><label>Name<input id="personName" type="text" value="Aarav Sharma" required /></label><label>Date of Birth<input id="birthDate" type="date" value="1996-08-15" required /></label><label>Time of Birth<input id="birthTime" type="time" value="06:24" required /></label><label>Birth Place<input id="birthPlace" type="text" value="Varanasi, India" required /></label></form>
+      <button class="btn" id="generateKundali" type="button">Generate Kundali</button>
+      <div class="kundali-output"><div class="chart" id="kundaliChart" aria-label="Simulated kundali chart"></div><div class="reading" id="kundaliReading"></div></div>
+    </section>
+
+    <section id="vastu" class="panel">
+      <div class="panel-header"><div class="panel-title"><h2>Vastu Shastra Guide</h2><p>Tap any compass direction to view harmonious placements for peace, prosperity, and balanced energy.</p></div></div>
+      <div class="vastu-wrap"><div class="compass" id="compass" aria-label="Interactive Vastu compass"><button class="direction d-n active" data-dir="North">N</button><button class="direction d-ne" data-dir="North-East">NE</button><button class="direction d-e" data-dir="East">E</button><button class="direction d-se" data-dir="South-East">SE</button><button class="direction d-s" data-dir="South">S</button><button class="direction d-sw" data-dir="South-West">SW</button><button class="direction d-w" data-dir="West">W</button><button class="direction d-nw" data-dir="North-West">NW</button><div class="compass-center" id="compassLogo"></div></div><div class="guide-card" id="vastuInfo"></div></div>
+    </section>
+
+    <section id="mantras" class="panel">
+      <div class="panel-header"><div class="panel-title"><h2>Mantras & Audio Player</h2><p>Read sacred mantras, simulate calming audio playback, and count Jaap with an iPad-friendly digital mala.</p></div></div>
+      <div class="mantra-grid"><div id="mantraList"></div><aside class="player"><h3 id="trackTitle">Gayatri Mantra</h3><p id="trackStatus">Ready for meditative audio simulation.</p><div class="progress"><div class="progress-fill" id="progressFill"></div></div><button class="btn secondary" id="playPause">Play</button><div class="mala" id="malaCounter" role="button" tabindex="0" aria-label="Tap to count jaap"><div><strong id="malaCount">0</strong><small>Tap bead to count Jaap • Goal 108</small></div></div><button class="btn secondary" id="resetMala">Reset Mala</button></aside></div>
+    </section>
+
+    <section id="puja" class="panel">
+      <div class="panel-header"><div class="panel-title"><h2>Puja Guide</h2><p>Follow clear, respectful steps for daily worship or special home rituals.</p></div></div>
+      <div class="tabs" id="pujaTabs"></div><div class="puja-steps" id="pujaSteps"></div>
+    </section>
+
+    <section id="ads" class="panel">
+      <div class="panel-header"><div class="panel-title"><h2>Ad Space Simulator</h2><p>Preview subtle monetization slots that preserve the devotional experience.</p></div></div>
+      <div class="ad-banner" style="min-height:190px;margin-bottom:16px;"><span class="ad-label">Sponsored Ad</span><strong>Top devotional banner: adaptive tablet placement.</strong><span>Suitable for Android tablets and iPad webviews with warm native styling.</span></div>
+      <div class="ad-banner" style="min-height:250px;"><span class="ad-label">Sponsored Ad</span><strong>Native card placement between content sections.</strong><span>Designed for monetization testing without interrupting puja, mantra, calendar, or chat workflows.</span></div>
+    </section>
+
+    <section id="chat" class="panel">
+      <div class="panel-header"><div class="panel-title"><h2>Free Dharma Chat Assistant</h2><p>No paid AI, no API key, and no network call. This rule-based assistant answers from the local festival, Vastu, mantra, kundali, and puja knowledge built into this file.</p></div></div>
+      <div class="chat-layout"><div class="chat-window"><div class="chat-head"><h3>Sanatan Seva Assistant</h3><p>Ask things like “When is Diwali?”, “What goes in North-East?”, “Gayatri mantra”, or “How to do daily puja?”</p></div><div class="chat-log" id="chatLog"></div><form class="chat-input" id="chatForm"><label class="control-field"><span class="field-label">Your question</span><input id="chatQuestion" type="text" autocomplete="off" aria-label="Ask about festivals, mantras, Vastu, puja" /></label><button class="btn" type="submit">Ask</button></form></div><div class="chat-suggestions"><div class="knowledge-card"><h3>Try these questions</h3><p>The assistant uses keyword matching, date lookup, and the app’s local knowledge base for free answers.</p></div><button class="suggestion" data-question="When is Diwali 2026 and what is the muhurat note?">When is Diwali 2026?</button><button class="suggestion" data-question="List September 2026 festivals">List September 2026 festivals</button><button class="suggestion" data-question="What should be placed in North-East according to Vastu?">Vastu for North-East</button><button class="suggestion" data-question="Show me the Gayatri Mantra">Show Gayatri Mantra</button><button class="suggestion" data-question="How do I perform Daily Puja?">Daily Puja steps</button></div></div>
+    </section>
+  </main>
+
+  <nav class="bottom-nav" aria-label="Bottom navigation"><button class="nav-btn active" data-section="festivals" data-nav-icon="calendar">Calendar</button><button class="nav-btn" data-section="kundali" data-nav-icon="kundali">Kundali</button><button class="nav-btn" data-section="vastu" data-nav-icon="compass">Vastu</button><button class="nav-btn" data-section="mantras" data-nav-icon="mala">Mantras</button><button class="nav-btn" data-section="puja" data-nav-icon="diya">Puja</button><button class="nav-btn" data-section="ads" data-nav-icon="ad">Ads</button><button class="nav-btn" data-section="chat" data-nav-icon="chat">Chat</button></nav>
+
+  <script>
+    const svgIcons = {
+      logo: '<svg viewBox="0 0 64 64" aria-hidden="true"><path d="M32 8c4 8 4 15 0 21-4-6-4-13 0-21Z" fill="#8a2e07"/><path d="M18 18c9 2 14 7 14 17-9-2-14-7-14-17Zm28 0c-9 2-14 7-14 17 9-2 14-7 14-17Z" fill="#c85a13"/><path d="M12 34c10-2 18 1 20 11-10 2-18-1-20-11Zm40 0c-10-2-18 1-20 11 10 2 18-1 20-11Z" fill="#d7aa3b"/><path d="M22 47h20l-4 8H26l-4-8Z" fill="#8a2e07"/><circle cx="32" cy="38" r="6" fill="#fff4d8"/></svg>',
+      calendar: '<svg viewBox="0 0 64 64" aria-hidden="true"><rect x="12" y="14" width="40" height="40" rx="8" fill="#fff4d8"/><path d="M12 24h40" stroke="#d7aa3b" stroke-width="5"/><path d="M22 9v10M42 9v10" stroke="#fff4d8" stroke-width="5" stroke-linecap="round"/><circle cx="24" cy="35" r="4" fill="#d7aa3b"/><circle cx="40" cy="35" r="4" fill="#c85a13"/><circle cx="32" cy="45" r="4" fill="#832a05"/></svg>',
+      kundali: '<svg viewBox="0 0 64 64" aria-hidden="true"><rect x="13" y="13" width="38" height="38" rx="4" fill="#fff4d8"/><path d="M13 32h38M32 13v38M13 13l38 38M51 13 13 51" stroke="#832a05" stroke-width="3"/><circle cx="32" cy="32" r="6" fill="#d7aa3b"/></svg>',
+      compass: '<svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="24" fill="#fff4d8" stroke="#d7aa3b" stroke-width="5"/><path d="M39 14 34 34 25 50l5-20 9-16Z" fill="#c85a13"/><circle cx="32" cy="32" r="4" fill="#832a05"/></svg>',
+      mala: '<svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="31" r="18" fill="none" stroke="#fff4d8" stroke-width="5" stroke-dasharray="3 4"/><circle cx="32" cy="31" r="7" fill="#d7aa3b"/><path d="M32 49v8" stroke="#fff4d8" stroke-width="5" stroke-linecap="round"/></svg>',
+      diya: '<svg viewBox="0 0 64 64" aria-hidden="true"><path d="M16 38c8 8 24 8 32 0-2 13-30 13-32 0Z" fill="#fff4d8"/><path d="M32 8c8 9 7 17 0 23-7-6-8-14 0-23Z" fill="#d7aa3b"/><path d="M22 45h20" stroke="#d7aa3b" stroke-width="5" stroke-linecap="round"/></svg>',
+      ad: '<svg viewBox="0 0 64 64" aria-hidden="true"><rect x="10" y="16" width="44" height="32" rx="7" fill="#fff4d8"/><path d="M19 39l6-15h5l6 15M22 34h11M41 25v14" stroke="#832a05" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+      chat: '<svg viewBox="0 0 64 64" aria-hidden="true"><path d="M13 17h38a7 7 0 0 1 7 7v16a7 7 0 0 1-7 7H31l-13 8v-8h-5a7 7 0 0 1-7-7V24a7 7 0 0 1 7-7Z" fill="#fff4d8"/><circle cx="22" cy="32" r="3" fill="#832a05"/><circle cx="32" cy="32" r="3" fill="#d7aa3b"/><circle cx="42" cy="32" r="3" fill="#c85a13"/></svg>'
+    };
+
+    const festivals = [
+      { month: 'January', day: 1, weekday: 'Thursday', names: ['Pradosh Vrat (S)'], type: 'Vrat', note: 'Shukla Paksha Pradosh; evening Shiva worship.', significance: 'Auspicious twilight vrat dedicated to Lord Shiva.' },
+      { month: 'January', day: 3, weekday: 'Saturday', names: ['Paush Purnima Vrat'], type: 'Monthly', note: 'Full moon observance; local moonrise and puja times vary.', significance: 'Purnima is favored for charity, satvik worship, and mantra japa.' },
+      { month: 'January', day: 6, weekday: 'Tuesday', names: ['Sankashti Chaturthi'], type: 'Vrat', note: 'Fast traditionally broken after moonrise.', significance: 'Ganesha vrat for removing obstacles and strengthening resolve.' },
+      { month: 'January', day: 14, weekday: 'Wednesday', names: ['Shattila Ekadashi', 'Pongal', 'Uttarayan', 'Makar Sankranti'], type: 'Major', note: 'Solar transition day; punya kaal varies by city.', significance: 'Harvest gratitude, charity, sesame offerings, and the Sun entering Makara.' },
+      { month: 'January', day: 16, weekday: 'Friday', names: ['Pradosh Vrat (K)', 'Masik Shivaratri'], type: 'Vrat', note: 'Krishna Pradosh and monthly Shivaratri worship.', significance: 'Evening Shiva puja, fasting, and night mantra practice.' },
+      { month: 'January', day: 18, weekday: 'Sunday', names: ['Magha Amavasya'], type: 'Monthly', note: 'Amavasya tarpan timings vary by location.', significance: 'New moon day for ancestor remembrance, donation, and quiet sadhana.' },
+      { month: 'January', day: 23, weekday: 'Friday', names: ['Basant Panchmi', 'Saraswati Puja'], type: 'Major', note: 'Morning Saraswati worship is common.', significance: 'Welcomes spring and honors Saraswati for learning, music, and wisdom.' },
+      { month: 'January', day: 29, weekday: 'Thursday', names: ['Jaya / Bhami Ekadashi'], type: 'Vrat', note: 'Ekadashi fasting; parana is next day by local panchang.', significance: 'Vishnu vrat for purification and devotion.' },
+      { month: 'January', day: 30, weekday: 'Friday', names: ['Pradosh Vrat (S)'], type: 'Vrat', note: 'Shukla Pradosh; evening Shiva worship.', significance: 'Prayer for health, harmony, and forgiveness.' },
+      { month: 'February', day: 1, weekday: 'Sunday', names: ['Magha Purnima Vrat'], type: 'Monthly', note: 'Full moon observance.', significance: 'Bathing, charity, and Vishnu/Shiva worship are traditional.' },
+      { month: 'February', day: 5, weekday: 'Thursday', names: ['Sankashti Chaturthi'], type: 'Vrat', note: 'Fast broken after moonrise.', significance: 'Monthly Ganesha vrat for obstacle removal.' },
+      { month: 'February', day: 13, weekday: 'Friday', names: ['Vijaya Ekadashi', 'Kumbha Sankranti'], type: 'Vrat', note: 'Ekadashi and solar Sankranti observance.', significance: 'Vishnu vrat for victory in righteous efforts.' },
+      { month: 'February', day: 14, weekday: 'Saturday', names: ['Pradosh Vrat (K)'], type: 'Vrat', note: 'Krishna Pradosh.', significance: 'Shiva worship during pradosh kaal.' },
+      { month: 'February', day: 15, weekday: 'Sunday', names: ['Mahashivratri', 'Masik Shivaratri'], type: 'Major', note: 'Night-long Shiva worship; nishita kaal differs by city.', significance: 'One of the holiest nights for Shiva abhishekam, fasting, and Om Namah Shivaya japa.' },
+      { month: 'February', day: 17, weekday: 'Tuesday', names: ['Phalguna Amavasya'], type: 'Monthly', note: 'New moon observance.', significance: 'Tarpan, inner reflection, and charity.' },
+      { month: 'February', day: 27, weekday: 'Friday', names: ['Amalaki Ekadashi'], type: 'Vrat', note: 'Ekadashi fasting.', significance: 'Vishnu worship associated with the sacred amla tree.' },
+      { month: 'February', day: 28, weekday: 'Saturday', names: ['Pradosh Vrat (S)'], type: 'Vrat', note: 'Shukla Pradosh.', significance: 'Evening puja for Lord Shiva and Parvati.' },
+      { month: 'March', day: 3, weekday: 'Tuesday', names: ['Holika Dahan', 'Phalguna Purnima Vrat'], type: 'Major', note: 'Holika Dahan muhurat is city-specific.', significance: 'Symbolizes the protection of bhakti and victory over ego and negativity.' },
+      { month: 'March', day: 4, weekday: 'Wednesday', names: ['Holi'], type: 'Major', note: 'Festival day following Holika Dahan.', significance: 'Festival of colors, joy, forgiveness, and spring.' },
+      { month: 'March', day: 6, weekday: 'Friday', names: ['Sankashti Chaturthi'], type: 'Vrat', note: 'Fast broken after moonrise.', significance: 'Ganesha vrat for removing obstacles.' },
+      { month: 'March', day: 15, weekday: 'Sunday', names: ['Papmochani Ekadashi', 'Meena Sankranti'], type: 'Vrat', note: 'Ekadashi and solar Sankranti.', significance: 'Vishnu vrat for spiritual cleansing and renewal.' },
+      { month: 'March', day: 16, weekday: 'Monday', names: ['Pradosh Vrat (K)'], type: 'Vrat', note: 'Krishna Pradosh.', significance: 'Twilight Shiva worship.' },
+      { month: 'March', day: 17, weekday: 'Tuesday', names: ['Masik Shivaratri'], type: 'Monthly', note: 'Monthly Shiva night.', significance: 'Night prayer, japa, and abhishekam.' },
+      { month: 'March', day: 19, weekday: 'Thursday', names: ['Chaitra Navratri', 'Ugadi', 'Ghatasthapana', 'Gudi Padwa'], type: 'Major', note: 'Ghatasthapana muhurat varies by city.', significance: 'New year observances and nine days of Devi worship begin.' },
+      { month: 'March', day: 20, weekday: 'Friday', names: ['Cheti Chand'], type: 'Regional', note: 'Regional new year celebration.', significance: 'Observed by Sindhi communities honoring Jhulelal.' },
+      { month: 'March', day: 26, weekday: 'Thursday', names: ['Ram Navami'], type: 'Major', note: 'Madhyahna puja timing varies by city.', significance: 'Birth celebration of Lord Rama with Ramayana path and aarti.' },
+      { month: 'March', day: 27, weekday: 'Friday', names: ['Chaitra Navratri Parana'], type: 'Major', note: 'Parana timing should follow local panchang.', significance: 'Conclusion of Chaitra Navratri vrat.' },
+      { month: 'March', day: 29, weekday: 'Sunday', names: ['Kamada Ekadashi'], type: 'Vrat', note: 'Ekadashi fasting.', significance: 'Vishnu vrat for purity, harmony, and devotion.' },
+      { month: 'March', day: 30, weekday: 'Monday', names: ['Pradosh Vrat (S)'], type: 'Vrat', note: 'Shukla Pradosh.', significance: 'Evening Shiva-Parvati worship.' },
+      { month: 'April', day: 2, weekday: 'Thursday', names: ['Hanuman Jayanti', 'Chaitra Purnima Vrat'], type: 'Major', note: 'Purnima observance; local puja timing varies.', significance: 'Celebrates Hanuman ji with Hanuman Chalisa, strength, courage, and devotion.' },
+      { month: 'April', day: 5, weekday: 'Sunday', names: ['Sankashti Chaturthi'], type: 'Vrat', note: 'Fast broken after moonrise.', significance: 'Ganesha vrat for wisdom and obstacle removal.' },
+      { month: 'April', day: 13, weekday: 'Monday', names: ['Varuthini Ekadashi'], type: 'Vrat', note: 'Ekadashi fasting.', significance: 'Vishnu worship and disciplined conduct.' },
+      { month: 'April', day: 14, weekday: 'Tuesday', names: ['Mesha Sankranti'], type: 'Regional', note: 'Solar new year in many traditions.', significance: 'Sun enters Mesha; linked with Vaisakhi/Vishu season in many regions.' },
+      { month: 'April', day: 15, weekday: 'Wednesday', names: ['Masik Shivaratri', 'Pradosh Vrat (K)'], type: 'Vrat', note: 'Monthly Shiva observance.', significance: 'Fasting and night prayer for Lord Shiva.' },
+      { month: 'April', day: 17, weekday: 'Friday', names: ['Vaishakha Amavasya'], type: 'Monthly', note: 'Amavasya rituals vary by location.', significance: 'Ancestor remembrance and quiet charity.' },
+      { month: 'April', day: 19, weekday: 'Sunday', names: ['Akshaya Tritiya'], type: 'Major', note: 'Auspicious day; local purchase/puja timings vary.', significance: 'Celebrates inexhaustible merit, charity, new beginnings, and Lakshmi-Narayana worship.' },
+      { month: 'April', day: 27, weekday: 'Monday', names: ['Mohini Ekadashi'], type: 'Vrat', note: 'Ekadashi fasting.', significance: 'Vishnu worship remembering the Mohini avatar.' },
+      { month: 'April', day: 28, weekday: 'Tuesday', names: ['Pradosh Vrat (S)'], type: 'Vrat', note: 'Shukla Pradosh.', significance: 'Evening Shiva worship.' },
+      { month: 'May', day: 1, weekday: 'Friday', names: ['Vaishakha Purnima Vrat'], type: 'Monthly', note: 'Full moon observance.', significance: 'Purnima worship, meditation, and charity.' },
+      { month: 'May', day: 5, weekday: 'Tuesday', names: ['Sankashti Chaturthi'], type: 'Vrat', note: 'Fast broken after moonrise.', significance: 'Monthly Ganesha vrat.' },
+      { month: 'May', day: 13, weekday: 'Wednesday', names: ['Apara Ekadashi'], type: 'Vrat', note: 'Ekadashi fasting.', significance: 'Vishnu vrat for humility and liberation from past errors.' },
+      { month: 'May', day: 14, weekday: 'Thursday', names: ['Pradosh Vrat (K)'], type: 'Vrat', note: 'Krishna Pradosh.', significance: 'Shiva worship at twilight.' },
+      { month: 'May', day: 15, weekday: 'Friday', names: ['Masik Shivaratri', 'Vrishabha Sankranti'], type: 'Monthly', note: 'Monthly Shiva night and solar transition.', significance: 'Shiva japa and Sankranti charity.' },
+      { month: 'May', day: 16, weekday: 'Saturday', names: ['Jyeshtha Amavasya'], type: 'Monthly', note: 'New moon observance.', significance: 'Tarpan and ancestor remembrance.' },
+      { month: 'May', day: 27, weekday: 'Wednesday', names: ['Padmini Ekadashi'], type: 'Vrat', note: 'Ekadashi in Adhik Maas context.', significance: 'Special Vishnu vrat for devotion and merit.' },
+      { month: 'May', day: 28, weekday: 'Thursday', names: ['Pradosh Vrat (S)'], type: 'Vrat', note: 'Shukla Pradosh.', significance: 'Evening Shiva worship.' },
+      { month: 'May', day: 31, weekday: 'Sunday', names: ['Purnima Vrat'], type: 'Monthly', note: 'Full moon observance.', significance: 'Satvik worship, charity, and mantra practice.' },
+      { month: 'June', day: 3, weekday: 'Wednesday', names: ['Sankashti Chaturthi'], type: 'Vrat', note: 'Fast broken after moonrise.', significance: 'Ganesha vrat.' },
+      { month: 'June', day: 11, weekday: 'Thursday', names: ['Parama Ekadashi'], type: 'Vrat', note: 'Ekadashi fasting.', significance: 'Vishnu vrat with special importance in Adhik Maas.' },
+      { month: 'June', day: 12, weekday: 'Friday', names: ['Pradosh Vrat (K)'], type: 'Vrat', note: 'Krishna Pradosh.', significance: 'Shiva worship during pradosh kaal.' },
+      { month: 'June', day: 13, weekday: 'Saturday', names: ['Masik Shivaratri'], type: 'Monthly', note: 'Monthly Shiva night.', significance: 'Night japa, abhishekam, and meditation.' },
+      { month: 'June', day: 15, weekday: 'Monday', names: ['Amavasya', 'Mithuna Sankranti'], type: 'Monthly', note: 'New moon and solar transition.', significance: 'Ancestor remembrance and Sankranti charity.' },
+      { month: 'June', day: 25, weekday: 'Thursday', names: ['Nirjala Ekadashi'], type: 'Major', note: 'Strict Ekadashi vrat; follow health guidance and local parana.', significance: 'A highly revered Vishnu vrat associated with intense devotion.' },
+      { month: 'June', day: 27, weekday: 'Saturday', names: ['Pradosh Vrat (S)'], type: 'Vrat', note: 'Shukla Pradosh.', significance: 'Evening Shiva worship.' },
+      { month: 'June', day: 29, weekday: 'Monday', names: ['Jyeshtha Purnima Vrat'], type: 'Monthly', note: 'Full moon observance.', significance: 'Purnima charity and worship.' },
+      { month: 'July', day: 3, weekday: 'Friday', names: ['Sankashti Chaturthi'], type: 'Vrat', note: 'Fast broken after moonrise.', significance: 'Ganesha vrat.' },
+      { month: 'July', day: 10, weekday: 'Friday', names: ['Yogini Ekadashi'], type: 'Vrat', note: 'Ekadashi fasting.', significance: 'Vishnu vrat for cleansing and compassion.' },
+      { month: 'July', day: 12, weekday: 'Sunday', names: ['Masik Shivaratri', 'Pradosh Vrat (K)'], type: 'Vrat', note: 'Monthly Shiva observance.', significance: 'Night worship and pradosh puja.' },
+      { month: 'July', day: 14, weekday: 'Tuesday', names: ['Ashadha Amavasya'], type: 'Monthly', note: 'New moon observance.', significance: 'Tarpan, charity, and quiet sadhana.' },
+      { month: 'July', day: 16, weekday: 'Thursday', names: ['Jagannath Rath Yatra', 'Karka Sankranti'], type: 'Major', note: 'Regional Rath Yatra timings vary.', significance: 'Celebrates Lord Jagannath’s chariot journey and solar transition.' },
+      { month: 'July', day: 25, weekday: 'Saturday', names: ['Deva Shayani Ekadashi', 'Ashadhi Ekadashi'], type: 'Major', note: 'Ekadashi fasting and parana by local panchang.', significance: 'Marks the beginning of Chaturmas and deep Vishnu devotion.' },
+      { month: 'July', day: 26, weekday: 'Sunday', names: ['Pradosh Vrat (S)'], type: 'Vrat', note: 'Shukla Pradosh.', significance: 'Evening Shiva worship.' },
+      { month: 'July', day: 29, weekday: 'Wednesday', names: ['Guru Purnima', 'Ashadha Purnima Vrat'], type: 'Major', note: 'Full moon; guru puja timing varies.', significance: 'Honors gurus, teachers, and the lineage of wisdom.' },
+      { month: 'August', day: 2, weekday: 'Sunday', names: ['Sankashti Chaturthi'], type: 'Vrat', note: 'Fast broken after moonrise.', significance: 'Ganesha vrat.' },
+      { month: 'August', day: 9, weekday: 'Sunday', names: ['Kamika Ekadashi'], type: 'Vrat', note: 'Ekadashi fasting.', significance: 'Vishnu vrat with devotional worship.' },
+      { month: 'August', day: 10, weekday: 'Monday', names: ['Pradosh Vrat (K)'], type: 'Vrat', note: 'Krishna Pradosh.', significance: 'Shiva worship at twilight.' },
+      { month: 'August', day: 11, weekday: 'Tuesday', names: ['Masik Shivaratri'], type: 'Monthly', note: 'Monthly Shiva night.', significance: 'Night prayer and mantra japa.' },
+      { month: 'August', day: 12, weekday: 'Wednesday', names: ['Shravana Amavasya'], type: 'Monthly', note: 'New moon observance.', significance: 'Ancestor remembrance and Shravan devotion.' },
+      { month: 'August', day: 15, weekday: 'Saturday', names: ['Hariyali Teej'], type: 'Regional', note: 'Regional vrat and celebration.', significance: 'Celebrates devotion of Shiva-Parvati and monsoon greenery.' },
+      { month: 'August', day: 17, weekday: 'Monday', names: ['Nag Panchami', 'Simha Sankranti'], type: 'Major', note: 'Puja timing varies by region.', significance: 'Honors Nag Devata and nature’s protective forces.' },
+      { month: 'August', day: 23, weekday: 'Sunday', names: ['Shravana Putrada Ekadashi'], type: 'Vrat', note: 'Ekadashi fasting.', significance: 'Vishnu vrat for blessings and family welfare.' },
+      { month: 'August', day: 25, weekday: 'Tuesday', names: ['Pradosh Vrat (S)'], type: 'Vrat', note: 'Shukla Pradosh.', significance: 'Evening Shiva worship.' },
+      { month: 'August', day: 26, weekday: 'Wednesday', names: ['Onam/Thiruvonam'], type: 'Regional', note: 'Kerala harvest celebration.', significance: 'Celebrates abundance, dharma, and the story of Mahabali.' },
+      { month: 'August', day: 28, weekday: 'Friday', names: ['Raksha Bandhan', 'Shravana Purnima Vrat'], type: 'Major', note: 'Rakhi tying time is local and should avoid inauspicious periods.', significance: 'Celebrates protection, affection, and family responsibility.' },
+      { month: 'August', day: 31, weekday: 'Monday', names: ['Sankashti Chaturthi', 'Kajari Teej'], type: 'Vrat', note: 'Moonrise timing for Sankashti varies.', significance: 'Ganesha vrat and regional Teej observance.' },
+      { month: 'September', day: 4, weekday: 'Friday', names: ['Janmashtami'], type: 'Major', note: 'Nishita puja timing varies by city.', significance: 'Birth celebration of Shri Krishna with fasting, bhajans, and midnight aarti.' },
+      { month: 'September', day: 7, weekday: 'Monday', names: ['Aja Ekadashi'], type: 'Vrat', note: 'Ekadashi fasting.', significance: 'Vishnu vrat for truthfulness and devotion.' },
+      { month: 'September', day: 8, weekday: 'Tuesday', names: ['Pradosh Vrat (K)'], type: 'Vrat', note: 'Krishna Pradosh.', significance: 'Evening Shiva worship.' },
+      { month: 'September', day: 9, weekday: 'Wednesday', names: ['Masik Shivaratri'], type: 'Monthly', note: 'Monthly Shiva night.', significance: 'Night prayer and japa.' },
+      { month: 'September', day: 11, weekday: 'Friday', names: ['Bhadrapada Amavasya'], type: 'Monthly', note: 'New moon observance.', significance: 'Tarpan and inward sadhana.' },
+      { month: 'September', day: 14, weekday: 'Monday', names: ['Ganesh Chaturthi', 'Hartalika Teej'], type: 'Major', note: 'Madhyahna Ganesha sthapana timing varies by city.', significance: 'Welcomes Lord Ganesha with modak, aarti, and prayers for wisdom.' },
+      { month: 'September', day: 17, weekday: 'Thursday', names: ['Kanya Sankranti'], type: 'Regional', note: 'Solar transition.', significance: 'Sankranti charity and worship.' },
+      { month: 'September', day: 22, weekday: 'Tuesday', names: ['Parivartini Ekadashi'], type: 'Vrat', note: 'Ekadashi fasting.', significance: 'Vishnu worship during Chaturmas.' },
+      { month: 'September', day: 24, weekday: 'Thursday', names: ['Pradosh Vrat (S)'], type: 'Vrat', note: 'Shukla Pradosh.', significance: 'Evening Shiva worship.' },
+      { month: 'September', day: 25, weekday: 'Friday', names: ['Anant Chaturdashi'], type: 'Major', note: 'Visarjan and Anant puja timings vary.', significance: 'Concludes Ganesha festival in many places and honors Anant Vishnu.' },
+      { month: 'September', day: 26, weekday: 'Saturday', names: ['Bhadrapada Purnima Vrat'], type: 'Monthly', note: 'Full moon observance.', significance: 'Purnima worship and charity.' },
+      { month: 'September', day: 29, weekday: 'Tuesday', names: ['Sankashti Chaturthi'], type: 'Vrat', note: 'Fast broken after moonrise.', significance: 'Ganesha vrat.' },
+      { month: 'October', day: 6, weekday: 'Tuesday', names: ['Indira Ekadashi'], type: 'Vrat', note: 'Ekadashi fasting.', significance: 'Vishnu vrat often connected with ancestor blessings.' },
+      { month: 'October', day: 8, weekday: 'Thursday', names: ['Masik Shivaratri', 'Pradosh Vrat (K)'], type: 'Vrat', note: 'Monthly Shiva observance.', significance: 'Shiva worship and night japa.' },
+      { month: 'October', day: 10, weekday: 'Saturday', names: ['Ashwin Amavasya'], type: 'Monthly', note: 'New moon observance.', significance: 'Ancestor remembrance and quiet prayer.' },
+      { month: 'October', day: 11, weekday: 'Sunday', names: ['Sharad Navratri', 'Ghatasthapana'], type: 'Major', note: 'Ghatasthapana muhurat varies by city.', significance: 'Nine nights of Devi worship, vrat, garba, and shakti sadhana begin.' },
+      { month: 'October', day: 16, weekday: 'Friday', names: ['Kalparambha'], type: 'Regional', note: 'Durga Puja preparatory ritual.', significance: 'Begins formal Durga Puja rituals in several traditions.' },
+      { month: 'October', day: 17, weekday: 'Saturday', names: ['Navpatrika Puja', 'Tula Sankranti'], type: 'Regional', note: 'Regional Durga Puja and solar transition.', significance: 'Durga Puja ritual worship and Sankranti charity.' },
+      { month: 'October', day: 19, weekday: 'Monday', names: ['Durga Maha Navami Puja', 'Durga Puja Ashtami'], type: 'Major', note: 'Sandhi and Navami timings vary by city.', significance: 'Important Durga Puja worship honoring Devi’s power.' },
+      { month: 'October', day: 20, weekday: 'Tuesday', names: ['Dussehra', 'Sharad Navratri Parana'], type: 'Major', note: 'Aparahna puja/parana timings vary by city.', significance: 'Victory of dharma over adharma; Lord Rama’s triumph and Devi’s victory.' },
+      { month: 'October', day: 21, weekday: 'Wednesday', names: ['Durga Visarjan'], type: 'Major', note: 'Visarjan timing is regional.', significance: 'Farewell to Maa Durga with gratitude and devotion.' },
+      { month: 'October', day: 22, weekday: 'Thursday', names: ['Papankusha Ekadashi'], type: 'Vrat', note: 'Ekadashi fasting.', significance: 'Vishnu vrat for devotion and purification.' },
+      { month: 'October', day: 23, weekday: 'Friday', names: ['Pradosh Vrat (S)'], type: 'Vrat', note: 'Shukla Pradosh.', significance: 'Evening Shiva worship.' },
+      { month: 'October', day: 26, weekday: 'Monday', names: ['Ashwin Purnima Vrat'], type: 'Monthly', note: 'Full moon observance.', significance: 'Purnima worship, moonlight meditation, and charity.' },
+      { month: 'October', day: 29, weekday: 'Thursday', names: ['Sankashti Chaturthi', 'Karva Chauth'], type: 'Major', note: 'Moonrise timing is essential and varies by city.', significance: 'Karva Chauth vrat and Ganesha Sankashti observance.' },
+      { month: 'November', day: 5, weekday: 'Thursday', names: ['Rama Ekadashi'], type: 'Vrat', note: 'Ekadashi fasting.', significance: 'Vishnu vrat before Deepavali period.' },
+      { month: 'November', day: 6, weekday: 'Friday', names: ['Dhanteras', 'Pradosh Vrat (K)'], type: 'Major', note: 'Dhanteras puja timing is local.', significance: 'Honors Dhanvantari, Lakshmi, health, and auspicious prosperity.' },
+      { month: 'November', day: 7, weekday: 'Saturday', names: ['Masik Shivaratri'], type: 'Monthly', note: 'Monthly Shiva night.', significance: 'Shiva japa and night worship.' },
+      { month: 'November', day: 8, weekday: 'Sunday', names: ['Diwali', 'Narak Chaturdashi'], type: 'Major', note: 'Lakshmi Puja pradosh/vrishabha muhurat varies by city.', significance: 'Festival of lights honoring Lakshmi Maa, inner purity, prosperity, and new beginnings.' },
+      { month: 'November', day: 9, weekday: 'Monday', names: ['Kartik Amavasya'], type: 'Monthly', note: 'Amavasya observance.', significance: 'New moon worship and deep reflection.' },
+      { month: 'November', day: 10, weekday: 'Tuesday', names: ['Govardhan Puja'], type: 'Major', note: 'Puja timing varies regionally.', significance: 'Celebrates Krishna lifting Govardhan and honoring nature’s abundance.' },
+      { month: 'November', day: 11, weekday: 'Wednesday', names: ['Bhai Dooj'], type: 'Major', note: 'Tilak timing varies by family tradition and panchang.', significance: 'Celebrates sibling affection and blessings.' },
+      { month: 'November', day: 15, weekday: 'Sunday', names: ['Chhath Puja'], type: 'Major', note: 'Sunrise/sunset arghya timings vary by city.', significance: 'Devotion to Surya Dev and Chhathi Maiya with purity and gratitude.' },
+      { month: 'November', day: 16, weekday: 'Monday', names: ['Vrischika Sankranti'], type: 'Regional', note: 'Solar transition.', significance: 'Sankranti charity and worship.' },
+      { month: 'November', day: 20, weekday: 'Friday', names: ['Devutthana Ekadashi'], type: 'Major', note: 'Ekadashi parana by local panchang.', significance: 'Vishnu awakens from yoga nidra; auspicious season resumes.' },
+      { month: 'November', day: 22, weekday: 'Sunday', names: ['Pradosh Vrat (S)'], type: 'Vrat', note: 'Shukla Pradosh.', significance: 'Evening Shiva worship.' },
+      { month: 'November', day: 24, weekday: 'Tuesday', names: ['Kartik Purnima Vrat'], type: 'Major', note: 'Full moon rituals vary by city.', significance: 'Sacred full moon for lamps, charity, Kartik snan, and devotion.' },
+      { month: 'November', day: 27, weekday: 'Friday', names: ['Sankashti Chaturthi'], type: 'Vrat', note: 'Fast broken after moonrise.', significance: 'Ganesha vrat.' },
+      { month: 'December', day: 4, weekday: 'Friday', names: ['Utpanna Ekadashi'], type: 'Vrat', note: 'Ekadashi fasting.', significance: 'Vishnu vrat associated with the origin of Ekadashi observance.' },
+      { month: 'December', day: 6, weekday: 'Sunday', names: ['Pradosh Vrat (K)'], type: 'Vrat', note: 'Krishna Pradosh.', significance: 'Twilight Shiva worship.' },
+      { month: 'December', day: 7, weekday: 'Monday', names: ['Masik Shivaratri'], type: 'Monthly', note: 'Monthly Shiva night.', significance: 'Night worship and japa.' },
+      { month: 'December', day: 8, weekday: 'Tuesday', names: ['Margashirsha Amavasya'], type: 'Monthly', note: 'New moon observance.', significance: 'Ancestor remembrance, charity, and quiet prayer.' },
+      { month: 'December', day: 16, weekday: 'Wednesday', names: ['Dhanu Sankranti'], type: 'Regional', note: 'Solar transition.', significance: 'Sankranti worship and charity.' },
+      { month: 'December', day: 20, weekday: 'Sunday', names: ['Mokshada Ekadashi'], type: 'Vrat', note: 'Ekadashi fasting.', significance: 'Vishnu vrat associated with liberation and Bhagavad Gita wisdom.' },
+      { month: 'December', day: 21, weekday: 'Monday', names: ['Pradosh Vrat (S)'], type: 'Vrat', note: 'Shukla Pradosh.', significance: 'Evening Shiva worship.' },
+      { month: 'December', day: 23, weekday: 'Wednesday', names: ['Margashirsha Purnima Vrat'], type: 'Monthly', note: 'Full moon observance.', significance: 'Purnima worship, charity, and meditation.' },
+      { month: 'December', day: 26, weekday: 'Saturday', names: ['Sankashti Chaturthi'], type: 'Vrat', note: 'Fast broken after moonrise.', significance: 'Ganesha vrat for obstacle removal.' }
+    ];
+
+    const vastu = {
+      'North': ['Wealth & opportunities', 'Keep lockers, safe, indoor plants, or a clean water bowl here. Avoid heavy clutter to support prosperity flow.'],
+      'North-East': ['Prayer & wisdom', 'Best for mandir, meditation mat, copper kalash, sacred books, and clean open space. Keep it pure, bright, and light.'],
+      'East': ['Health & vitality', 'Use for sunrise seating, study desk, yoga space, and open windows for clarity and prana.'],
+      'South-East': ['Fire & kitchen', 'Ideal for kitchen, diya stand, and controlled electrical appliances. Balance with warm but not harsh lighting.'],
+      'South': ['Strength & recognition', 'Use for awards, red accents, and organized storage. Avoid water features in this direction.'],
+      'South-West': ['Stability & relationships', 'Good for master bedroom, family photos, heavier furniture, and grounding earth tones.'],
+      'West': ['Fulfillment & gains', 'Suitable for dining, children’s study support, grains, and calm metallic accents.'],
+      'North-West': ['Movement & support', 'Good for guest room, ventilation, travel items, and social connection. Keep it airy and organized.']
+    };
+
+    const mantras = [
+      { title: 'Gayatri Mantra', sanskrit: 'ॐ भूर्भुवः स्वः तत्सवितुर्वरेण्यं भर्गो देवस्य धीमहि धियो यो नः प्रचोदयात्॥', english: 'Om Bhur Bhuvah Swah, Tat Savitur Varenyam, Bhargo Devasya Dheemahi, Dhiyo Yo Nah Prachodayat.', meaning: 'A prayer for divine illumination, wisdom, and clarity of intellect.' },
+      { title: 'Maha Mrityunjaya Mantra', sanskrit: 'ॐ त्र्यम्बकं यजामहे सुगन्धिं पुष्टिवर्धनम्। उर्वारुकमिव बन्धनान्मृत्योर्मुक्षीय मामृतात्॥', english: 'Om Tryambakam Yajamahe Sugandhim Pushtivardhanam, Urvarukamiva Bandhanan Mrityor Mukshiya Maamritat.', meaning: 'A Shiva mantra for healing, courage, and spiritual liberation.' },
+      { title: 'Ganesh Mantra', sanskrit: 'ॐ गं गणपतये नमः॥', english: 'Om Gam Ganapataye Namah.', meaning: 'A prayer to Lord Ganesha for auspicious beginnings and obstacle removal.' }
+    ];
+
+    const pujas = {
+      'Daily Puja': ['Clean the puja area and place fresh water, flowers, diya, incense, and a satvik offering.', 'Sit calmly, ring the bell gently, and invoke your Ishta Devata with folded hands.', 'Light the diya and incense, then chant a short mantra or stotra with full attention.', 'Offer flowers, akshat, fruit, or prasad while expressing gratitude and sankalp.', 'Perform aarti clockwise, pray for all beings, and distribute prasad respectfully.'],
+      'Lakshmi Puja': ['Clean the home entrance and puja room, then decorate with rangoli, lamps, and flowers.', 'Place Lakshmi-Ganesha images on a clean cloth with coins, rice, and kalash.', 'Invoke Ganesha first, then chant Lakshmi mantras and offer lotus or fragrant flowers.', 'Offer sweets, kheer, or fruits and pray for dharmic prosperity and generosity.', 'Complete with aarti, light diyas around the home, and share prasad with family.'],
+      'Shiva Abhishekam': ['Prepare a Shivling with water, milk, bilva leaves, flowers, sandalwood, and clean vessels.', 'Begin with Om Namah Shivaya and pour water slowly with devotion.', 'Offer milk or panchamrit, then rinse with clean water to honor purity.', 'Place bilva leaves, white flowers, and sandalwood while chanting Shiva mantras.', 'Conclude with aarti, silent meditation, and a prayer for inner transformation.']
+    };
+
+    const sections = ['festivals', 'kundali', 'vastu', 'mantras', 'puja', 'ads', 'chat'];
+    const months = ['All', 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    let selectedMonth = 'All';
+
+    function setIcons() {
+      document.getElementById('brandLogo').innerHTML = svgIcons.logo;
+      document.getElementById('compassLogo').innerHTML = svgIcons.logo;
+      document.querySelectorAll('[data-icon]').forEach(el => { el.innerHTML = svgIcons[el.dataset.icon]; });
+      document.querySelectorAll('[data-nav-icon]').forEach(btn => { btn.insertAdjacentHTML('afterbegin', svgIcons[btn.dataset.navIcon]); });
+    }
+
+    function formatDate(item) { return `${item.weekday}, ${item.month} ${item.day}, 2026`; }
+
+    function renderMonthStrip() {
+      document.getElementById('monthStrip').innerHTML = months.map(month => `<button class="month-chip ${month === selectedMonth ? 'active' : ''}" data-month="${month}">${month.slice(0, 3)}${month === 'All' ? '' : ''}</button>`).join('');
+    }
+
+    function filteredFestivals() {
+      const q = document.getElementById('festivalSearch').value.toLowerCase().trim();
+      const type = document.getElementById('festivalType').value;
+      return festivals.filter(item => {
+        const text = `${item.month} ${item.day} ${item.weekday} ${item.names.join(' ')} ${item.type} ${item.note} ${item.significance}`.toLowerCase();
+        return (selectedMonth === 'All' || item.month === selectedMonth) && (type === 'all' || item.type === type) && (!q || text.includes(q));
+      });
+    }
+
+    function renderFestivals() {
+      const list = filteredFestivals();
+      document.getElementById('visibleCount').textContent = `${list.length} shown`;
+      document.getElementById('festivalList').innerHTML = list.length ? list.map(item => `<article class="festival-item"><div class="date-badge"><span><small>${item.month.slice(0,3).toUpperCase()}</small><strong>${String(item.day).padStart(2, '0')}</strong></span></div><div><h3>${item.names.join(' · ')}</h3><p><strong>${formatDate(item)}</strong> — ${item.significance}</p></div><div class="festival-meta"><span>${item.type}</span><small>${item.note}</small></div></article>`).join('') : '<div class="empty-state">No matching observances found. Try another month, category, or search term.</div>';
+    }
+
+    function setSection(id) {
+      sections.forEach(section => document.getElementById(section).classList.toggle('active', section === id));
+      document.querySelectorAll('[data-section]').forEach(button => button.classList.toggle('active', button.dataset.section === id));
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function generateKundali() {
+      const name = document.getElementById('personName').value.trim() || 'Devotee';
+      const date = document.getElementById('birthDate').value || '1990-01-01';
+      const time = document.getElementById('birthTime').value || '06:00';
+      const place = document.getElementById('birthPlace').value.trim() || 'Birth Place';
+      const seed = [...name + date + time + place].reduce((sum, char) => sum + char.charCodeAt(0), 0);
+      const planets = ['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn', 'Rahu', 'Ketu'];
+      const signs = ['Aries', 'Taurus', 'Gemini', 'Cancer', 'Leo', 'Virgo', 'Libra', 'Scorpio', 'Sagittarius', 'Capricorn', 'Aquarius', 'Pisces'];
+      document.getElementById('kundaliChart').innerHTML = Array.from({ length: 9 }, (_, index) => `<div class="house"><span><strong>House ${index + 1}</strong>${planets[(seed + index * 2) % planets.length]}<br>${signs[(seed + index * 3) % signs.length]}</span></div>`).join('');
+      const moonSign = signs[(seed + 4) % signs.length];
+      const ascendant = signs[(seed + 8) % signs.length];
+      const strength = ['discipline', 'creativity', 'devotion', 'leadership', 'wisdom', 'compassion'][seed % 6];
+      document.getElementById('kundaliReading').innerHTML = `<div class="reading-card"><h3>${name}'s Simulated Birth Profile</h3><p>Born on ${date} at ${time} in ${place}. Ascendant appears as <strong>${ascendant}</strong>, suggesting a life path shaped by ${strength} and steady self-improvement.</p></div><div class="reading-card"><h3>Moon Sign Insight</h3><p>Your simulated Chandra Rashi is <strong>${moonSign}</strong>. This points to emotional growth through prayer, family harmony, and mindful speech.</p></div><div class="reading-card"><h3>Planetary Guidance</h3><p>Jupiter and Venus combinations indicate support for learning, seva, and relationships. Saturday charity and daily Gayatri chanting are favorable practices.</p></div>`;
+    }
+
+    function setVastu(dir) {
+      document.querySelectorAll('.direction').forEach(btn => btn.classList.toggle('active', btn.dataset.dir === dir));
+      const [title, text] = vastu[dir];
+      document.getElementById('vastuInfo').innerHTML = `<h3>${dir}: ${title}</h3><p>${text}</p><p style="margin-top:12px;"><strong>Tip:</strong> Keep this direction clean, intentional, and well-lit to support sattvic energy.</p>`;
+    }
+
+    function renderMantras() {
+      document.getElementById('mantraList').innerHTML = mantras.map((m, index) => `<article class="mantra-card"><h3>${m.title}</h3><p class="sanskrit">${m.sanskrit}</p><p>${m.english}</p><p style="margin-top:10px;"><strong>Meaning:</strong> ${m.meaning}</p><button class="btn secondary" style="margin-top:12px;" data-track="${index}">Select Chant</button></article>`).join('');
+    }
+
+    let playing = false;
+    let progress = 0;
+    let timer;
+    function updateTrack(index) {
+      progress = 0;
+      document.getElementById('progressFill').style.width = '0%';
+      document.getElementById('trackTitle').textContent = mantras[index].title;
+      document.getElementById('trackStatus').textContent = playing ? 'Playing sacred audio simulation with tanpura ambience.' : 'Ready for meditative audio simulation.';
+    }
+
+    let malaCount = 0;
+    function incrementMala() {
+      malaCount = (malaCount + 1) % 109;
+      document.getElementById('malaCount').textContent = malaCount;
+      if (malaCount === 108) document.getElementById('trackStatus').textContent = 'Mala complete: 108 Jaap counted. Take a moment for gratitude.';
+    }
+
+    function setPuja(name) {
+      document.querySelectorAll('.tab').forEach(tab => tab.classList.toggle('active', tab.dataset.puja === name));
+      document.getElementById('pujaSteps').innerHTML = pujas[name].map((step, index) => `<article class="puja-step"><div class="step-number">${index + 1}</div><div><h3>${name} Step ${index + 1}</h3><p>${step}</p></div></article>`).join('');
+    }
+
+    function escapeHtml(value) {
+      return String(value).replace(/[&<>"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[char]));
+    }
+
+    function addBubble(text, who = 'bot') {
+      const log = document.getElementById('chatLog');
+      const bubble = document.createElement('div');
+      bubble.className = `bubble ${who}`;
+      bubble.innerHTML = who === 'user' ? escapeHtml(text) : text;
+      log.appendChild(bubble);
+      log.scrollTop = log.scrollHeight;
+    }
+
+    function normalize(value) { return value.toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim(); }
+
+    function answerQuestion(question) {
+      const q = question.toLowerCase();
+      const clean = normalize(question);
+      const month = months.find(m => m !== 'All' && clean.includes(m.toLowerCase()));
+      const matchedFestival = festivals.find(item => item.names.some(name => clean.includes(normalize(name)) || normalize(name).includes(clean)));
+      const matchedVastu = Object.keys(vastu).find(dir => {
+        const normalizedDir = normalize(dir);
+        return clean.includes(normalizedDir) || clean.includes(normalizedDir.replace(' ', '')) || clean.includes(dir.toLowerCase());
+      });
+      const matchedMantra = mantras.find(m => q.includes(m.title.toLowerCase().split(' ')[0]) || q.includes(m.title.toLowerCase()));
+      const matchedPuja = Object.keys(pujas).find(name => q.includes(name.toLowerCase().replace(' puja', '')) || q.includes(name.toLowerCase()));
+      if (matchedFestival) return `<strong>${matchedFestival.names.join(' · ')}</strong><br>${formatDate(matchedFestival)}<br><strong>Timing note:</strong> ${matchedFestival.note}<br><strong>Significance:</strong> ${matchedFestival.significance}`;
+      if (month || q.includes('list')) {
+        const scope = month || 'All';
+        const items = festivals.filter(item => scope === 'All' || item.month === scope).slice(0, 18);
+        return `<strong>${scope === 'All' ? 'First 18 2026 observances' : scope + ' 2026 festivals'}</strong><br>${items.map(item => `${item.month} ${item.day}: ${item.names.join(' · ')}`).join('<br>')}`;
+      }
+      if (matchedVastu) { const [title, text] = vastu[matchedVastu]; return `<strong>${matchedVastu}: ${title}</strong><br>${text}`; }
+      if (matchedMantra) return `<strong>${matchedMantra.title}</strong><br><span class="sanskrit">${matchedMantra.sanskrit}</span><br>${matchedMantra.english}<br><strong>Meaning:</strong> ${matchedMantra.meaning}`;
+      if (matchedPuja) return `<strong>${matchedPuja}</strong><br>${pujas[matchedPuja].map((step, index) => `${index + 1}. ${step}`).join('<br>')}`;
+      if (q.includes('kundali')) return 'The Kundali Calculator is a free simulated tool: enter name, date, time, and place to generate a deterministic visual chart and basic reading. For life decisions, consult a qualified astrologer.';
+      if (q.includes('free') || q.includes('ai') || q.includes('paid')) return 'This chat is free and offline. It does not call a paid AI API. It answers by searching the festival calendar, Vastu guide, mantras, and puja steps bundled inside this single HTML file.';
+      return 'I can answer from the built-in Sanatan Seva knowledge base. Try asking “When is Diwali?”, “List October festivals”, “North-East Vastu”, “Gayatri Mantra”, or “Daily Puja steps”.';
+    }
+
+    setIcons();
+    document.getElementById('festivalCount').textContent = festivals.length;
+    renderMonthStrip();
+    renderFestivals();
+    renderMantras();
+    document.getElementById('pujaTabs').innerHTML = Object.keys(pujas).map((name, index) => `<button class="tab ${index === 0 ? 'active' : ''}" data-puja="${name}">${name}</button>`).join('');
+    setPuja('Daily Puja');
+    generateKundali();
+    setVastu('North');
+    addBubble('Namaste. I am a free offline assistant. Ask me about 2026 dates, Vastu, mantras, puja steps, or how the simulated kundali works.');
+
+    document.querySelectorAll('[data-section]').forEach(button => button.addEventListener('click', () => setSection(button.dataset.section)));
+    document.querySelectorAll('[data-jump]').forEach(button => button.addEventListener('click', () => setSection(button.dataset.jump)));
+    document.getElementById('festivalSearch').addEventListener('input', renderFestivals);
+    document.getElementById('festivalType').addEventListener('change', renderFestivals);
+    document.getElementById('monthStrip').addEventListener('click', event => { if (event.target.dataset.month) { selectedMonth = event.target.dataset.month; renderMonthStrip(); renderFestivals(); } });
+    document.getElementById('kundaliForm').addEventListener('submit', event => { event.preventDefault(); generateKundali(); });
+    document.getElementById('generateKundali').addEventListener('click', generateKundali);
+    document.querySelectorAll('.direction').forEach(btn => btn.addEventListener('click', () => setVastu(btn.dataset.dir)));
+    document.getElementById('mantraList').addEventListener('click', event => { if (event.target.dataset.track) updateTrack(Number(event.target.dataset.track)); });
+    document.getElementById('playPause').addEventListener('click', () => { playing = !playing; document.getElementById('playPause').textContent = playing ? 'Pause' : 'Play'; document.getElementById('trackStatus').textContent = playing ? 'Playing sacred audio simulation with tanpura ambience.' : 'Paused. Resume when ready.'; clearInterval(timer); if (playing) timer = setInterval(() => { progress = (progress + 1.6) % 101; document.getElementById('progressFill').style.width = `${progress}%`; }, 280); });
+    document.getElementById('malaCounter').addEventListener('click', incrementMala);
+    document.getElementById('malaCounter').addEventListener('keydown', event => { if (event.key === 'Enter' || event.key === ' ') incrementMala(); });
+    document.getElementById('resetMala').addEventListener('click', () => { malaCount = 0; document.getElementById('malaCount').textContent = '0'; document.getElementById('trackStatus').textContent = 'Mala reset. Begin again with a calm mind.'; });
+    document.getElementById('pujaTabs').addEventListener('click', event => { if (event.target.dataset.puja) setPuja(event.target.dataset.puja); });
+    document.getElementById('chatForm').addEventListener('submit', event => { event.preventDefault(); const input = document.getElementById('chatQuestion'); const question = input.value.trim(); if (!question) return; addBubble(question, 'user'); addBubble(answerQuestion(question)); input.value = ''; });
+    document.querySelectorAll('[data-question]').forEach(btn => btn.addEventListener('click', () => { document.getElementById('chatQuestion').value = btn.dataset.question; document.getElementById('chatForm').requestSubmit(); }));
+  </script>
+</body>
+</html>
